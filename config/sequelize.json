@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "inteligferm",
+    "password": "inteligferm",
+    "database": "inteligferm",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "inteligferm",
+    "password": "inteligferm",
+    "database": "inteligferm",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "inteligferm",
+    "password": "inteligferm",
+    "database": "inteligferm",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
