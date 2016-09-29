@@ -25,7 +25,7 @@
 
   function AdminService($resource) {
     return $resource('api/users/:userId', {
-      userId: '@_id'
+      userId: '@id'
     }, {
       update: {
         method: 'PUT'

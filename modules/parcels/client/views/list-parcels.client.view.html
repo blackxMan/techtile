@@ -1,0 +1,18 @@
+<section>
+  <div class="page-header">
+    <h1>Parcels</h1>
+  </div>
+  <div class="list-group">
+    <a ng-repeat="parcel in vm.parcels" ui-sref="parcels.view({ parcelId: parcel.id })" class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span ng-bind="parcel.createdAt | date:'mediumDate'"></span>
+        by
+        <span ng-if="parcel.user" ng-bind="parcel.user.displayName"></span>
+        <span ng-if="!parcel.user">Deleted User</span>
+      </small>
+      <h4 class="list-group-item-heading" ng-bind="parcel.name"></h4>
+      <p class="list-group-item-text" ng-bind="parcel.description"></p>
+    </a>
+  </div>
+</section>

@@ -40,7 +40,7 @@
 
       user.$update(function () {
         $state.go('admin.user', {
-          userId: user._id
+          userId: user.id
         });
       }, function (errorResponse) {
         vm.error = errorResponse.data.message;

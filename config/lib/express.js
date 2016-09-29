@@ -141,7 +141,6 @@ module.exports.initSession = function (app, db) {
  */
 module.exports.initModulesConfiguration = function (app, db) {
   config.files.server.configs.forEach(function (configPath) {
-    console.log(JSON.stringify(configPath));
     require(path.resolve(configPath))(app, db);
   });
 };
@@ -253,8 +252,7 @@ module.exports.configureTokenAuth= function(app,db){
   // Retrive security token
 	app.use(function(req,res,next){
 		var token= TokenAuthentication.getToken(req);
-    console.log('Token : ================> '+req.path);
-    console.log(token);
+    
 		if(token){
 			req.token= token;
       db.models.user.findOne({where: {token: req.token}})

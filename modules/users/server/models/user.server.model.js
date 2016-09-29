@@ -163,6 +163,14 @@ module.exports = function(sequelize, DataTypes) {
       if (models.article) {
         User.hasMany(models.article);
       }
+
+      if (models.product) {
+        User.hasMany(models.product);
+      }
+
+      if (models.parcel) {
+        User.hasMany(models.parcel);
+      }
     }
   });
 

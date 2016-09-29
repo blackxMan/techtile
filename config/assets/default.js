@@ -9,6 +9,7 @@ module.exports = {
         // bower:css
         'public/lib/bootstrap/dist/css/bootstrap.css',
         'public/lib/bootstrap/dist/css/bootstrap-theme.css',
+        'public/lib/angular-material/angular-material.css',
         // endbower
       ],
       js: [
@@ -23,6 +24,9 @@ module.exports = {
         'public/lib/angular-ui-router/release/angular-ui-router.js',
         'public/lib/angular-ui-utils/ui-utils.js',
         'public/lib/owasp-password-strength-test/owasp-password-strength-test.js',
+        'public/lib/angular-aria/angular-aria.min.js',
+        
+        'public/lib/angular-material/angular-material.min.js'
         // endbower
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']

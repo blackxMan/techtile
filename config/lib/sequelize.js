@@ -45,6 +45,7 @@ db.connect = function(database, username, password, options) {
       .then(function() {
         winston.info("Database synchronized");
       }).catch(function(err) {
+        console.log('err ---------------------> '+JSON.stringify(err));
         winston.error("An error occured: %j", err);
       });
   }

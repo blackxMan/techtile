@@ -1,0 +1,67 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.parcel.id ? 'Edit Parcel' : 'New Parcel'}}</h1>
+  </div>
+  <div class="pull-right">
+    <a class="btn btn-primary" ng-click="vm.remove()">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.parcelForm" class="form-horizontal" ng-submit="vm.save(vm.form.parcelForm.$valid)" novalidate>
+      <fieldset>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="name">Name</label>
+          <input name="title" type="text" ng-model="vm.parcel.name" id="name" class="form-control md-input" placeholder="Parcel name" required>
+          <div ng-messages="vm.form.parcelForm.title.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Parcel name is required.</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="description">Description</label>
+          <textarea name="description" data-ng-model="vm.parcel.description" id="description" class="form-control" cols="30" rows="10" placeholder="Parcel description"></textarea>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="born_at">Born at</label>
+          <input name="born_at" type="datetime-local" ng-model="vm.parcel.bornAt" id="bornAt" class="form-control" required>
+          <div ng-messages="vm.form.parcelForm.bornAt.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Parcel born is required.</p>
+          </div>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="death_at">Death at</label>
+          <input name="death_at" type="datetime-local" ng-model="vm.parcel.deathAt" id="deathAt" class="form-control">
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="state">State</label>
+          <select name="state" type="text" ng-model="vm.parcel.state" id="state" class="form-control">
+            <option value="active">Active</option>
+            <option value="deactive">deactive</option>
+          </select>
+        </div>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="surfaceValue">Parcel surface</label>
+          <div class="row">
+            <div class="col-xs-6">
+              <input name="surfaceValue" type="text" ng-model="vm.parcel.surfaceValue" id="surfaceValue" class="form-control">
+            </div>
+            <div class="col-xs-6">
+              <select name="surfaceUnit" type="text" ng-model="vm.parcel.surfaceUnit" id="surfaceUnit" class="form-control">
+                <option value="mm">mm</option>
+                <option value="cm">cm</option>
+                <option value="m">m</option>
+                <option value="km">km</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">{{vm.parcel.id ? 'Update' : 'Create'}}</button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>

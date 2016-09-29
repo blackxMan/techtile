@@ -184,7 +184,7 @@ describe('User CRUD tests', function () {
           }
 
           // Get single user information from the database
-          agent.get('/api/users/' + user._id)
+          agent.get('/api/users/' + user.id)
             .expect(200)
             .end(function (userInfoErr, userInfoRes) {
               if (userInfoErr) {
@@ -192,7 +192,7 @@ describe('User CRUD tests', function () {
               }
 
               userInfoRes.body.should.be.instanceof(Object);
-              userInfoRes.body._id.should.be.equal(String(user._id));
+              userInfoRes.body.id.should.be.equal(String(user.id));
 
               // Call the assertion callback
               return done();
@@ -223,7 +223,7 @@ describe('User CRUD tests', function () {
             roles: ['admin']
           };
 
-          agent.put('/api/users/' + user._id)
+          agent.put('/api/users/' + user.id)
             .send(userUpdate)
             .expect(200)
             .end(function (userInfoErr, userInfoRes) {
@@ -235,7 +235,7 @@ describe('User CRUD tests', function () {
               userInfoRes.body.firstName.should.be.equal('admin_update_first');
               userInfoRes.body.lastName.should.be.equal('admin_update_last');
               userInfoRes.body.roles.should.be.instanceof(Array).and.have.lengthOf(1);
-              userInfoRes.body._id.should.be.equal(String(user._id));
+              userInfoRes.body.id.should.be.equal(String(user.id));
 
               // Call the assertion callback
               return done();
@@ -258,7 +258,7 @@ describe('User CRUD tests', function () {
             return done(signinErr);
           }
 
-          agent.delete('/api/users/' + user._id)
+          agent.delete('/api/users/' + user.id)
             // .send(userUpdate)
             .expect(200)
             .end(function (userInfoErr, userInfoRes) {
@@ -267,7 +267,7 @@ describe('User CRUD tests', function () {
               }
 
               userInfoRes.body.should.be.instanceof(Object);
-              userInfoRes.body._id.should.be.equal(String(user._id));
+              userInfoRes.body.id.should.be.equal(String(user.id));
 
               // Call the assertion callback
               return done();
@@ -652,7 +652,7 @@ describe('User CRUD tests', function () {
               userInfoRes.body.lastName.should.be.equal('user_update_last');
               userInfoRes.body.roles.should.be.instanceof(Array).and.have.lengthOf(1);
               userInfoRes.body.roles.indexOf('user').should.equal(0);
-              userInfoRes.body._id.should.be.equal(String(user._id));
+              userInfoRes.body.id.should.be.equal(String(user.id));
 
               // Call the assertion callback
               return done();
@@ -694,7 +694,7 @@ describe('User CRUD tests', function () {
               userInfoRes.body.lastName.should.be.equal('user_update_last');
               userInfoRes.body.roles.should.be.instanceof(Array).and.have.lengthOf(1);
               userInfoRes.body.roles.indexOf('user').should.equal(0);
-              userInfoRes.body._id.should.be.equal(String(user._id));
+              userInfoRes.body.id.should.be.equal(String(user.id));
 
               // Call the assertion callback
               return done();
@@ -874,7 +874,7 @@ describe('User CRUD tests', function () {
 
             userInfoRes.body.should.be.instanceof(Object);
             userInfoRes.body.profileImageURL.should.be.a.String();
-            userInfoRes.body._id.should.be.equal(String(user._id));
+            userInfoRes.body.id.should.be.equal(String(user.id));
 
             return done();
           });

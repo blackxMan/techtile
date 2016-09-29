@@ -1,0 +1,18 @@
+<section>
+  <div class="page-header">
+    <h1>Interventions</h1>
+  </div>
+  <div class="list-group">
+    <a ng-repeat="intervention in vm.interventions" ui-sref="interventions.view({ interventionId: intervention.id })" class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span ng-bind="intervention.createdAt | date:'mediumDate'"></span>
+        by
+        <span ng-if="intervention.user" ng-bind="intervention.user.displayName"></span>
+        <span ng-if="!intervention.user">Deleted User</span>
+      </small>
+      <h4 class="list-group-item-heading" ng-bind="intervention.name"></h4>
+      <p class="list-group-item-text" ng-bind="intervention.description"></p>
+    </a>
+  </div>
+</section>
