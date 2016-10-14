@@ -27,6 +27,12 @@
     });
 
     $stateProvider
+      .state('backoffice', {
+        url: '/backoffice',
+        templateUrl: 'modules/core/client/views/backoffice.client.view.html',
+        controller: 'BackofficeController',
+        controllerAs: 'vm'
+      })
       .state('home', {
         url: '/',
         templateUrl: 'modules/core/client/views/home.client.view.html',

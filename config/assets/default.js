@@ -7,16 +7,23 @@ module.exports = {
     lib: {
       css: [
         // bower:css
-        'public/lib/bootstrap/dist/css/bootstrap.css',
-        'public/lib/bootstrap/dist/css/bootstrap-theme.css',
+        //'public/lib/bootstrap/dist/css/bootstrap.css',
+        //'public/lib/bootstrap/dist/css/bootstrap-theme.css',
+        //'//ajax.googleapis.com/ajax/libs/angular_material/0.8.3/angular-material.min.css',
         'public/lib/angular-material/angular-material.css',
+        'public/lib/angular-material/angular-material-icons.css',
+        'public/lib/angular-material-sidemenu/dest/angular-material-sidemenu.css',
+        'https://fonts.googleapis.com/icon?family=Material+Icons',
+        'public/lib/angular-material-data-table/dist/md-data-table.min.css'
+
         // endbower
       ],
       js: [
         // bower:js
+        'public/lib/lodash/dist/lodash.min.js',
         'public/lib/angular/angular.js',
         'public/lib/angular-animate/angular-animate.js',
-        'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
+        //'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
         'public/lib/angular-file-upload/dist/angular-file-upload.min.js',
         'public/lib/angular-messages/angular-messages.js',
         'public/lib/angular-mocks/angular-mocks.js',
@@ -25,8 +32,11 @@ module.exports = {
         'public/lib/angular-ui-utils/ui-utils.js',
         'public/lib/owasp-password-strength-test/owasp-password-strength-test.js',
         'public/lib/angular-aria/angular-aria.min.js',
-        
-        'public/lib/angular-material/angular-material.min.js'
+
+        'public/lib/angular-material/angular-material.min.js',
+        'public/lib/angular-material-icons/angular-material-icons.min.js',
+        'public/lib/angular-material-sidemenu/dest/angular-material-sidemenu.js',
+        'public/lib/angular-material-data-table/dist/md-data-table.min.js'
         // endbower
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']

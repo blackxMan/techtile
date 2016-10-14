@@ -62,16 +62,12 @@ exports.update = function(req, res) {
  */
 exports.delete = function(req, res) {
   var activity = req.activity;
-  console.log('delete --------------- activity : ');
-  console.log(activity);
   // Find the activity
   Activity.findById(activity.id).then(function(activity) {
     if (activity) {
-      console.log('activity exist ----------->>>> ');
       console.log(activity);
       // Delete the activity
       activity.destroy().then(function() {
-        console.log('destory!!!!!!!------------');
         return res.json(activity);
       }).catch(function(err) {
         return res.status(400).send({
@@ -97,7 +93,7 @@ exports.delete = function(req, res) {
  */
 exports.list = function(req, res) {
   Activity.findAll({
-    include: [db.user]
+    include: []
   }).then(function(activities) {
     if (!activities) {
       return res.status(404).send({
@@ -106,10 +102,43 @@ exports.list = function(req, res) {
     } else {
       res.json(activities);
     }
-  }).catch(function(err) {
-    res.jsonp(err);
+  })
+  .catch(function(err) {
+    res.status(404).send({message:'Error fetching data'});
   });
 };
+
+/**
+* lazy load from client
+*/
+exports.lazy= function(req,res){
+  var limit= req.query.limit;
+  var offset= (req.query.page-1)*limit;
+  var column = req.query.order;
+  var orderType='ASC';
+
+  if(column.indexOf('-') != -1){
+    orderType= 'DESC';
+    column= column.replace('-','');
+  }
+
+  Activity.findAndCountAll({
+     order: column+' '+orderType,
+     offset: offset,
+     limit: limit,
+     include:[{model: db.product, as: 'Product', attributes:['name']},{model: db.user, as: 'Manager', attributes:['displayName']}]
+  })
+  .then(function(result) {
+    res.json(result);
+  }).catch(function(err){
+    console.log(err);
+    if(err)
+      res.json({count:0,rows:[]});
+  });
+
+};
+
+exports.deleteAll
 
 /**
  * Activity middleware

@@ -1,0 +1,74 @@
+md-content.md-default-theme {
+  background-color: #eee;
+}
+
+md-card {
+  background-color: #fff;
+}
+md-card h2:first-of-type {
+  margin-top: 0;
+}
+
+md-toolbar .md-button.md-default-theme {
+  border-radius: 99%;
+}
+
+h2 {
+  font-weight: 400;
+}
+
+.md-toolbar-tools-bottom {
+  font-size: small;
+}
+.md-toolbar-tools-bottom :last-child {
+  opacity: 0.8;
+}
+
+md-toolbar:not(.md-hue-1),
+.md-fab {
+  fill: #fff;
+}
+
+md-sidenav {
+  fill: #737373;
+}
+md-sidenav,
+md-sidenav.md-locked-open,
+md-sidenav.md-closed.md-locked-open-add-active {
+    min-width: 350px !important;
+    width: 350 !important;
+}
+
+md-sidenav md-tab-content md-list{
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+}
+
+.md-sidemenu md-divider {
+    margin: 0px 0px 8px 0px;
+}
+
+.md-sidemenu-toggle md-icon:first-child {
+    margin: 0px 15px 0px 0px;
+    font-size: 20px
+}
+
+.md-sidemenu-toggle md-icon.icon-arrows {
+    margin: 0px 15px 0px 0px;
+    font-size: 15px;
+    height: 15px;
+    width: 15px;
+}
+
+ng-md-icon.top5 {
+  position: relative;
+  top: 5px !important;
+}
+
+.user-avatar {
+  border-radius: 99%;
+}
+
+.icon-size-24{
+  font-size:24px;
+}

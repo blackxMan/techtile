@@ -39,7 +39,15 @@ exports.invokeRolesPolicies = function () {
       resources: '/api/activities/:activityId',
       permissions: ['get']
     }]
-  }]);
+  },
+  {
+    roles: ['user','admin','guest'],
+    allows: [{
+      resources: '/api/lazy/activities',
+      permissions: ['get']
+    }]
+  }
+]);
 };
 
 /**

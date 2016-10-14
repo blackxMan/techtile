@@ -16,22 +16,36 @@ module.exports = function(sequelize, DataTypes) {
     bornAt: {
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: DataTypes.NOW
+      defaultValue: DataTypes.NOW,
+      field: 'born_at'
     },
     deathAt: {
       type: DataTypes.DATE,
       allowNull: true,
-      defaultValue: DataTypes.NOW
+      defaultValue: DataTypes.NOW,
+      field: 'death_at'
     },
     description: DataTypes.TEXT,
     geo: DataTypes.JSON,
-    shapeForm: DataTypes.JSON,
+    shapeForm: {
+      type: DataTypes.JSON,
+      field: 'shape_form'
+    },
     color: DataTypes.STRING,
     state: DataTypes.STRING,
-    surfaceUnit: DataTypes.STRING,
-    surfaceValue: DataTypes.DOUBLE,
+    surfaceUnit: {
+      type: DataTypes.STRING,
+      field: 'surface_unit'
+    },
+    surfaceValue: {
+      type:DataTypes.DOUBLE,
+      field: 'surface_value'
+    },
 
   }, {
+    underscored: true,
+    freezeTableName: true,
+    tableName: 'parcels',
     associate: function(models) {
       Parcel.belongsTo(models.user);
     }

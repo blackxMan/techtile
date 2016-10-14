@@ -3,7 +3,7 @@
 
   angular
     .module('interventionNatures.admin')
-    .controller('InterventionNaturesController', ProductsController);
+    .controller('InterventionNaturesController', InterventionNaturesController);
 
   InterventionNaturesController.$inject = ['$scope', '$state', '$window', 'intervetionNatureResolve', 'Authentication','$http'];
 

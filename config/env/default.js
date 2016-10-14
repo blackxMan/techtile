@@ -3,8 +3,8 @@
 module.exports = {
   app: {
     title: 'MEAN.JS',
-    description: 'Full-Stack JavaScript with MongoDB, Express, AngularJS, and Node.js',
-    keywords: 'mongodb, express, angularjs, node.js, mongoose, passport',
+    description: 'Full-Stack JavaScript with Sequelize, Express, AngularJS, and Node.js',
+    keywords: 'mongodb, express, angularjs, node.js, Sequelize, passport',
     googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'GOOGLE_ANALYTICS_TRACKING_ID'
   },
   port: process.env.PORT || 3000,
@@ -27,7 +27,7 @@ module.exports = {
   // sessionKey is the cookie session name
   sessionKey: 'sessionId',
   sessionCollection: 'sessions',
-  
+
   jwtTokenSecret: 'b3fc1aedb94bc31469fac62e9e2938b94c978d32',
 	jwtHashMethod: 'HS512',// supported algo HS256, HS384, HS512 and RS256
 	/**

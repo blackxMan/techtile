@@ -16,7 +16,7 @@
       })
       .state('admin.interventionNatures.list', {
         url: '',
-        templateUrl: 'modules/intervention-natures/client/views/admin/list-intervention-nature.client.view.html',
+        templateUrl: 'modules/intervention-natures/client/views/admin/list-intervention-natures.client.view.html',
         controller: 'InterventionNaturesListController',
         controllerAs: 'vm',
         data: {

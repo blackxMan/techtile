@@ -1,26 +1,62 @@
-﻿<section>
-  <div class="page-header">
-    <h1>
-      Products
-      <a class="btn btn-primary pull-right" data-ui-sref="admin.activities.create">
-        <i class="glyphicon glyphicon-plus"></i>
-      </a>
-    </h1>
-  </div>
-  <div class="list-group">
-    <a data-ng-repeat="activity in vm.activities" data-ui-sref="admin.activities.edit({activityId: activity.id})" class="list-group-item">
-      <small class="list-group-item-text">
-        Posted on
-        <span data-ng-bind="activity.createdAt | date:'mediumDate'"></span>
-        by
-        <span ng-if="activity.user" ng-bind="activity.user.displayName"></span>
-        <span ng-if="!activity.user">Deleted User</span>
-      </small>
-      <h4 class="list-group-item-heading" data-ng-bind="activity.name"></h4>
-      <p class="list-group-item-text" data-ng-bind="activity.description"></p>
-    </a>
-  </div>
-  <div class="alert alert-warning text-center" data-ng-if="activities.$resolved && !activities.length">
-    No activities yet, why don't you <a data-ui-sref="admin.activities.create">create one</a>?
-  </div>
-</section>
+﻿
+<md-card style="padding:0px" ng-init="vm.getActivities()">
+  <md-toolbar class="md-table-toolbar md-default" ng-hide="vm.selectedItems.length">
+    <div class="md-toolbar-tools">
+      <span>Activities</span>
+      <div flex></div>
+      <md-button class="md-icon-button" ng-click="vm.getActivities()">
+        <md-icon>refresh</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-toolbar class="md-table-toolbar alternate" ng-show="vm.selectedItems.length">
+    <div class="md-toolbar-tools">
+      <span>{{vm.selectedItems.length}} {{vm.selectedItems.length > 1 ? 'items' : 'item'}} selected</span>
+      <div flex></div>
+      <md-button class="md-icon-button" ng-click="vm.deleteItems()">
+        <md-icon style="color:#fff;">delete</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+
+  <!-- exact table from live demo -->
+  <md-table-container>
+    <table md-table md-row-select multiple ng-model="vm.selectedItems" md-progress="vm.promise">
+      <thead md-head md-order="vm.dtConfig.order" md-on-reorder="vm.getActivities">
+        <tr md-row>
+          <th md-column md-order-by="name"><span>Nom d'activite</span></th>
+          <th md-column md-numeric md-order-by="year"><span>L'année d'activité</span></th>
+          <th md-column md-numeric>Budget estimé</th>
+          <th md-column md-numeric>Budget réel</th>
+          <th md-column>Date debut</th>
+          <th md-column>Date fin</th>
+          <th md-column>Produit</th>
+          <th md-column>Manager</th>
+          <th md-column style="text-align: center;">Actions</th>
+        </tr>
+      </thead>
+      <tbody md-body>
+        <tr md-row md-select="activity" md-select-id="name" md-auto-select ng-repeat="activity in vm.activities.rows">
+          <td md-cell>{{activity.name}}</td>
+          <td md-cell>{{activity.year}}</td>
+          <td md-cell>{{activity.estimatedBudget}}</td>
+          <td md-cell>{{activity.realBudget}}</td>
+          <td md-cell>{{activity.startAt | date:'mediumDate'}}</td>
+          <td md-cell>{{activity.endAt | date:'mediumDate'}}</td>
+          <td md-cell>{{activity.Product.name}}</td>
+          <td md-cell>{{activity.Manager.displayName}}</td>
+          <td md-cell>
+            <md-button class="md-icon-button" ng-click="vm.edit(activity.id)">
+              <md-icon>edit</md-icon>
+            </md-button>
+            <md-button class="md-icon-button" ng-click="vm.delete(activity.id)">
+              <md-icon>delete</md-icon>
+            </md-button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </md-table-container>
+
+  <md-table-pagination md-limit="vm.dtConfig.limit" md-limit-options="[5, 10, 15, 25, 50]" md-page="vm.dtConfig.page" md-total="{{vm.activities.count}}" md-on-paginate="vm.getActivities" md-page-select></md-table-pagination>
+</md-card>

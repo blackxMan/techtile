@@ -11,7 +11,8 @@
   function menuConfig(Menus) {
     Menus.addSubMenuItem('topbar', 'admin', {
       title: 'Manage Activities',
-      state: 'admin.activities.list'
+      state: 'admin.activities.list',
+      icon: 'dashboard'
     });
   }
 }());

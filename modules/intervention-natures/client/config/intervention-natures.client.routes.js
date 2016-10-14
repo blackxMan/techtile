@@ -16,11 +16,11 @@
       })
       .state('interventionNatures.list', {
         url: '',
-        templateUrl: 'modules/intervention-natures/client/views/list-intervention-nature.client.view.html',
+        templateUrl: 'modules/intervention-natures/client/views/list-intervention-natures.client.view.html',
         controller: 'InterventionNaturesListController',
         controllerAs: 'vm',
         data: {
-          pageTitle: 'InterventionNature List'
+          pageTitle: 'InterventionNatures List'
         }
       })
       .state('interventionNatures.view', {

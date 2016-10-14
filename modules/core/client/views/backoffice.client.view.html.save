@@ -1,0 +1,85 @@
+<style>
+  #wrapper{
+    width: 100%;
+    float: left;
+    min-height: 100%;
+    position: relative;
+  }
+
+  #page-wrapper {
+    padding: 0 0 0 325px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    zoom: 1;
+    -webkit-transition: width .2s cubic-bezier(.215,.61,.355,1);
+    transition: width .2s cubic-bezier(.215,.61,.355,1);
+    z-index: 300;
+  }
+
+  .sidebar {
+    width: 325px;
+  }
+
+  .right-sidebar, .sidebar{
+    position: fixed;
+    background-color: #c8c8c8;
+    z-index: 1000;
+  }
+
+  .sidebar .sidebar-holder {
+    width: 100%;
+    float: left;
+    padding-top: 32px;
+  }
+
+
+
+
+
+</style>
+
+<div id="wrapper" style="">
+
+  <!-- sidebar left -->
+  <data-ui-view name="sidebar_left">
+
+  </data-ui-view>
+  <!-- end left sidebar-->
+
+  <!-- sidebar right -->
+  <!--data-ui-view name="sidebar_right">
+
+  </data-ui-view-->
+  <!-- end right sidebar-->
+
+  <!-- footer -->
+  <!--data-ui-view name="footer">
+
+  </data-ui-view-->
+  <!-- end right footer-->
+
+  <!-- header (navbar) -->
+  <data-ui-view name="header" >
+    
+  </data-ui-view>
+  <!-- end header -->
+
+  <!-- content -->
+  <div id="page-wrapper" style="min-height:{{viewportHeight}}px;padding:0px 0px 0px 325px">
+    <div id="content" class="page-scroller" style="overflow:hidden;overflow-y:auto;min-height:{{viewportHeight-64}}px;margin-top:32px;box-sizing:border-box;">
+      <data-ui-view name="content">
+      </data-ui-view>
+    </div>
+  </div>
+  <!-- end content -->
+
+  <!-- events zone -->
+  <!-- <div id="events">
+    <div class="content row">
+      <data-ui-view name="dynamic">
+      </data-ui-view>
+    </div>
+  </div> -->
+  <!-- end events zone -->
+</div>

@@ -29,6 +29,7 @@ module.exports = function(sequelize, DataTypes) {
     firstName: {
       type: DataTypes.STRING,
       defaultValue: '',
+      field: 'firstname',
       validate: {
         isValid: validateLocalStrategyProperty,
         len: {
@@ -39,6 +40,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     lastName: {
       type: DataTypes.STRING,
+      field: 'lastname',
       defaultValue: '',
       validate: {
         isValid: validateLocalStrategyProperty
@@ -46,7 +48,8 @@ module.exports = function(sequelize, DataTypes) {
     },
     displayName: {
       type: DataTypes.STRING,
-      defaultValue: ''
+      defaultValue: '',
+      field: 'display_name'
     },
     username: {
       type: DataTypes.STRING,
@@ -101,7 +104,10 @@ module.exports = function(sequelize, DataTypes) {
         }
       }
     },
-    profileImageURL: DataTypes.STRING,
+    profileImageURL: {
+      type:DataTypes.STRING,
+      field:'profile_image_url'
+    },
     roles: {
       type: DataTypes.JSON,
       defaultValue: ["user"],
@@ -110,23 +116,36 @@ module.exports = function(sequelize, DataTypes) {
     hashedPassword: {
       type: DataTypes.STRING,
       default: '',
+      field: 'hashed_password',
       validate: {
         isValid: validateLocalStrategyPassword
       }
     },
     provider: DataTypes.STRING,
     providerData: {
-      type: DataTypes.JSON
+      type: DataTypes.JSON,
+      field: 'provider_data'
     },
     additionalProvidersData: {
-      type: DataTypes.JSON
+      type: DataTypes.JSON,
+      field: 'additional_providers_data'
     },
     salt: DataTypes.STRING,
     token: DataTypes.STRING,
 	  expires: DataTypes.DATE,
-    resetPasswordToken: DataTypes.STRING,
-    resetPasswordExpires: DataTypes.BIGINT
+    resetPasswordToken: {
+      type:DataTypes.STRING,
+      field: 'reset_password_token'
+    },
+    resetPasswordExpires: {
+      type:DataTypes.BIGINT,
+      field: 'reset_password_expires'
+    }
   }, {
+    underscored: true,
+    freezeTableName: true,
+    tableName: 'users',
+
     instanceMethods: {
       makeSalt: function() {
         return crypto.randomBytes(16).toString('base64');

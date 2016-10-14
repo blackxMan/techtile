@@ -16,21 +16,36 @@ module.exports = function(sequelize, DataTypes) {
     startAt: {
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: DataTypes.NOW
+      defaultValue: DataTypes.NOW,
+      field: 'start_at'
     },
     endAt: {
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: DataTypes.NOW
+      defaultValue: DataTypes.NOW,
+      field: 'end_at'
     },
     description: DataTypes.TEXT,
-    prescriptionId: DataTypes.INTEGER,
-    prescriptionNature: DataTypes.STRING,
-    paramsValue: DataTypes.JSON,
+    prescriptionId: {
+      type:DataTypes.INTEGER,
+      field: 'prescription_id'
+    },
+    prescriptionNature: {
+      type:DataTypes.STRING,
+      field: 'prescription_nature'
+    },
+    paramsValue: {
+      type: DataTypes.JSON,
+      field: 'params_value'
+    },
   }, {
+    underscored: true,
+    freezeTableName: true,
+    tableName: 'interventions',
     associate: function(models) {
       Intervention.belongsTo(models.user);
       Intervention.belongsTo(models.activity);
+      Intervention.belongsTo(models.interventionNature);
     }
   });
   return Intervention;

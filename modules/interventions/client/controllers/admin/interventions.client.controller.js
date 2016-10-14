@@ -3,7 +3,7 @@
 
   angular
     .module('interventions.admin')
-    .controller('InterventionsController', ProductsController);
+    .controller('InterventionsController', InterventionsController);
 
   InterventionsController.$inject = ['$scope', '$state', '$window', 'intervetionResolve', 'Authentication','$http'];
 

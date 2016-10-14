@@ -7,7 +7,7 @@
 
   InterventionsService.$inject = ['$resource'];
 
-  function ProductsService($resource) {
+  function InterventionsService($resource) {
     var Intervention = $resource('api/interventions/:interventionId', {
       interventionId: '@id'
     }, {

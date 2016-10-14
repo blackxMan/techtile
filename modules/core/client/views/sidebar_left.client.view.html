@@ -1,0 +1,67 @@
+<md-toolbar class="md-tall md-hue-2">
+  <div layout="column" class="md-toolbar-tools-bottom inset">
+    <md-list>
+      <md-list-item>
+        <user-avatar class="md-avatar"></user-avatar>
+        <div class="md-list-item-text">
+          <div>Firstname Lastname</div>
+          <div>email@domainname.com</div>
+        </div>
+      </md-list-item>
+    </md-list>
+  </div>
+</md-toolbar>
+<md-tabs md-stretch-tabs md-center-tabs="true" flex>
+  <md-tab id="tab1">
+    <md-tab-label>
+      <ng-md-icon icon="home" class="top5"></ng-md-icon>
+      Menu
+    </md-tab-label>
+    <md-tab-body>
+      <md-sidemenu locked="true">
+        <md-sidemenu-group  ng-repeat="menu in vm.menus | orderBy: 'position'" ng-if="menu.shouldRender(vm.authentication.user);">
+          <md-divider></md-divider>
+          <md-subheader class="md-no-sticky">{{menu.caption}}</md-subheader>
+          <md-sidemenu-content ng-repeat="item in menu.items | orderBy: 'position'" ng-if="item.type == 'dropdown'" md-icon="dashboard" md-heading="{{item.title}}" md-arrow="true">
+            <md-sidemenu-button ng-repeat="subitem in item.items | orderBy: 'position'" ng-if="subitem.shouldRender(vm.authentication.user);" ui-sref="{{subitem.state}}({{subitem.params}})">{{subitem.title}}</md-sidemenu-button>
+          </md-sidemenu-content>
+          <md-sidemenu-button ng-repeat="item in menu.items | orderBy: 'position'" ng-if="item.type != 'dropdown'" ui-sref="{{item.state}}">{{item.title}}</md-sidemenu-button>
+        </md-sidemenu-group>
+      </md-sidemenu>
+    </md-tab-body>
+  </md-tab>
+  <md-tab id="tab2">
+    <md-tab-label>
+      <ng-md-icon icon="notifications" class="top5"></ng-md-icon>
+      Notification
+    </md-tab-label>
+    <md-tab-body>
+      <md-list>
+        <md-list-item ng-repeat="item in menu">
+          <a>
+            <md-item-content md-ink-ripple layout="row" layout-align="start center">
+              <div class="inset">
+                <ng-md-icon icon="{{item.icon}}"></ng-md-icon>
+              </div>
+              <div class="inset">{{item.title}}
+              </div>
+            </md-item-content>
+          </a>
+        </md-list-item>
+        <md-divider></md-divider>
+        <md-subheader>Management</md-subheader>
+        <md-list-item ng-repeat="item in admin">
+          <a>
+            <md-item-content md-ink-ripple layout="row" layout-align="start center">
+              <div class="inset">
+                <ng-md-icon icon="{{item.icon}}"></ng-md-icon>
+              </div>
+              <div class="inset">{{item.title}}
+              </div>
+            </md-item-content>
+          </a>
+        </md-list-item>
+      </md-list>
+    </md-tab-body>
+  </md-tab>
+</md-tabs>

@@ -9,25 +9,16 @@
 
   function routeConfig($stateProvider) {
     $stateProvider
-      .state('backoffice.admin.activities', {
+      .state('admin.activities', {
         abstract: true,
         url: '/activities',
         template: '<ui-view/>'
       })
-      .state('backoffice.admin.activities.list', {
+      .state('admin.activities.list', {
         url: '',
-        views:{
-          "content@backoffice":{
-            templateUrl: 'modules/activities/client/views/admin/list-activities.client.view.html',
-            controller: 'ActivitiesListController',
-            controllerAs: 'vm',
-          },
-          "sidebar@backoffice":{
-            templateUrl: 'modules/core/client/views/sidebar_left.client.view.html',
-            controller: 'SidebarController',
-            controllerAs: 'vm',
-          }
-        },
+        templateUrl: 'modules/activities/client/views/admin/list-activities.client.view.html',
+        controller: 'ActivitiesListController',
+        controllerAs: 'vm',
         data: {
           roles: ['admin']
         }
@@ -44,27 +35,17 @@
           activityResolve: newActivity
         }
       })
-      .state('backoffice.admin.activities.edit', {
+      .state('admin.activities.edit', {
         url: '/:activityId/edit',
-        views:{
-          "content@backoffice":{
-            templateUrl: 'modules/activities/client/views/admin/form-activity.client.view.html',
-            controller: 'ActivitiesController',
-            controllerAs: 'vm',
-            resolve: {
-              activityResolve: getActivity
-            }
-          },
-          "sidebar@backoffice":{
-            templateUrl: 'modules/core/client/views/sidebar_left.client.view.html',
-            controller: 'SidebarController',
-            controllerAs: 'vm',
-          }
-        },
+        templateUrl: 'modules/activities/client/views/admin/form-activity.client.view.html',
+        controller: 'ActivitiesController',
+        controllerAs: 'vm',
         data: {
           roles: ['admin']
         },
-
+        resolve: {
+          activityResolve: getActivity
+        }
       });
   }
 

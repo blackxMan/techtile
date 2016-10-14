@@ -9,7 +9,8 @@
 
   function menuConfig(menuService) {
     menuService.addMenu('account', {
-      roles: ['user']
+      roles: ['user'],
+      caption: 'Account settings'
     });
 
     menuService.addMenuItem('account', {

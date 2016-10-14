@@ -1,127 +1,90 @@
-<section>
-  <div class="page-header">
-    <h1>{{vm.activity.id ? 'Edit Activity' : 'New Activity'}}</h1>
-  </div>
-  <div class="pull-right">
-    <a class="btn btn-primary" ng-click="vm.remove()">
-      <i class="glyphicon glyphicon-trash"></i>
-    </a>
-  </div>
-  <div class="col-md-12">
-    <form name="vm.form.activityForm" class="form-horizontal" ng-submit="vm.save(vm.form.activityForm.$valid)" novalidate>
-      <fieldset>
-        <!--div class="form-group" show-errors>
-          <label class="control-label" for="name">Name</label>
-          <input name="name" type="text" ng-model="vm.product.name" id="name" class="form-control" placeholder="Product name" required>
-          <div ng-messages="vm.form.productForm.name.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Product name is required.</p>
+<form name="vm.form.activityForm"  ng-submit="vm.save(vm.form.activityForm.$valid)" novalidate>
+  <md-card>
+    <md-card-content>
+      <md-input-container class="md-block flex-gt-sm" flex-gt-sm="" md-require-match required>
+        <label for="name">Name</label>
+        <input ng-model="vm.activity.name" class="md-input" name="name" id="name" aria-invalid="false" style="">
+        <div ng-messages="vm.form.activityForm.name.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Activity name is required.</p>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label for="description">Description</label>
+        <textarea name="description" data-ng-model="vm.activity.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+      </md-input-container>
+      <div layout-gt-xs="row">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>L'année de l'activité</label>
+          <input ng-model="vm.activity.year" class="md-input">
+          <div ng-messages="vm.form.activityForm.year.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">L'année de l'activité est obligatoire.</p>
           </div>
-        </div-->
-        <div class="form-group">
-          <md-input-container class="md-block flex-gt-sm" flex-gt-sm="">
-            <label for="name">Name</label>
-            <input ng-model="vm.activity.name" class="md-input" name="name" id="name" aria-invalid="false" style="">
-            <div ng-messages="vm.form.activityForm.name.$error" role="alert">
-              <p class="help-block error-text" ng-message="required">Activity name is required.</p>
-            </div>
-          </md-input-container>
-        </div>
-        <div class="form-group">
-          <label class="control-label" for="content">Description</label>
-          <textarea name="content" data-ng-model="vm.activity.description" id="description" class="form-control" cols="30" rows="10" placeholder="Activity description"></textarea>
-        </div>
-        <div class="form-group" show-errors>
-          <label class="control-label" for="start_at">Start at</label>
-          <input name="start_at" type="datetime-local" ng-model="vm.activity.startAt" id="startAt" class="form-control" required>
-          <div ng-messages="vm.form.activityForm.startAt.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Activity start is required.</p>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-xs>
+          <label>Date debut:</label>
+          <md-datepicker ng-model="vm.activity.startAt" name="startAt"></md-datepicker>
+          <div ng-messages="vm.form.activityForm.startAt.$error">
+            <div ng-message="valid">The entered value is not a date!</div>
+            <div ng-message="required">This date is required!</div>
           </div>
-        </div>
-        <div class="form-group" show-errors>
-          <label class="control-label" for="end_at">End at</label>
-          <input name="end_at" type="datetime-local" ng-model="vm.activity.endAt" id="endAt" class="form-control">
-          <div ng-messages="vm.form.activityForm.endAt.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Activity end is required.</p>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-xs>
+          <label>Date Fin:</label>
+          <md-datepicker ng-model="vm.activity.endAt" name="endAt"></md-datepicker>
+          <div ng-messages="vm.form.activityForm.endAt.$error">
+            <div ng-message="valid">The entered value is not a date!</div>
+            <div ng-message="required">This date is required!</div>
           </div>
-        </div>
-        <div class="form-group" show-errors>
-          <label class="control-label" for="estimated_budget">Estimated Budget</label>
-          <input name="estimated_budget" type="text" ng-model="vm.activity.estimatedBudget" id="estimatedBudget" class="form-control">
-        </div>
-        <div class="form-group" show-errors>
-          <label class="control-label" for="estimated_budget">Real Budget</label>
-          <input name="real_budget" type="text" ng-model="vm.activity.realBudget" id="realBudget" class="form-control">
-        </div>
-        <div class="form-group" show-errors>
-          <label class="control-label" for="manager_fullname">Activity Manager</label>
-          <input name="manager_fullname" type="text" ng-model="vm.activity.manager.fullname" id="manager_fullname" class="form-control">
-        </div>
-        <div class="form-group" show-errors>
-          <label class="control-label" for="activity_year">Activity year</label>
-          <input name="activity_year" type="text" ng-model="vm.activity.year" id="activityYear" class="form-control">
-        </div>
-        <div class="form-group" show-errors>
-          <label class="control-label" for="activity_parent">Activity parent</label>
-          <input name="activity_parent" type="text" ng-model="vm.activity.year" id="activityYear" class="form-control">
-        </div>
-        <div class="form-group" show-errors>
-          <label class="control-label" for="minHeight">Height measure</label>
-          <div class="row">
-            <div class="col-xs-4">
-              <input name="minHeight" type="text" ng-model="vm.activity.minHeight" id="minHeight" class="form-control">
-            </div>
-            <div class="col-xs-4">
-              <input name="maxHeight" type="text" ng-model="vm.activity.maxHeight" id="maxHeight" class="form-control">
-            </div>
-            <div class="col-xs-4">
-              <select name="heightMeasureUnit" type="text" ng-model="vm.activity.heightMeasureUnit" id="heightMeasureUnit" class="form-control">
-                <option value="mm">mm</option>
-                <option value="cm">cm</option>
-                <option value="m">m</option>
-                <option value="km">km</option>
-              </select>
-            </div>
+        </md-input-container>
+      </div>
+      <div layout-gt-xs="row">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Budget estimé</label>
+          <input ng-model="vm.activity.estimatedBudget" class="md-input">
+          <div ng-messages="vm.form.activityForm.estimatedBudget.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Budget estimé est recommande.</p>
           </div>
-        </div>
-        <div class="form-group" show-errors>
-          <label class="control-label" for="plantDensitySurfaceValue">Plant Density Surface</label>
-          <div class="row">
-            <div class="col-xs-6">
-              <input name="plantDensitySurfaceValue" type="text" ng-model="vm.activity.plantDensitySurfaceValue" id="plantDensitySurfaceValue" class="form-control">
-            </div>
-            <div class="col-xs-6">
-              <select name="plantDensitySurfaceUnit" type="text" ng-model="vm.activity.plantDensitySurfaceUnit" id="plantDensitySurfaceUnit" class="form-control">
-                <option value="mm">mm</option>
-                <option value="cm">cm</option>
-                <option value="m">m</option>
-                <option value="km">km</option>
-              </select>
-            </div>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Budget réal</label>
+          <input ng-model="vm.activity.realBudget" class="md-input">
+          <div ng-messages="vm.form.activityForm.realBudget.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Budget réal est recommande.</p>
           </div>
+        </md-input-container>
+      </div>
+      <md-autocomplete flex required md-input-name="autocompleteManager" md-no-cache="vm.noCache" md-selected-item="vm.selectedManager" md-search-text="vm.searchManager" md-items="item in vm.managerSearch(vm.searchManager)" md-item-text="item.display" md-require-match md-floating-label="Gerant de l'activité">
+        <md-item-template>
+          <span md-highlight-text="vm.searchManager">{{item.display}}</span>
+        </md-item-template>
+        <div ng-messages="vm.form.activityForm.autocompleteManager.$error" ng-if="vm.form.activityForm.autocompleteManager.$touched">
+          <div ng-message="required">Veuillez <b>choisir</b> un gerant pour cette activité.</div>
+          <div ng-message="md-require-match">Veuillez <b>choisir</b> un gerant correcte.</div>
         </div>
-        <div class="form-group" show-errors>
-          <label class="control-label" for="plantDensityWeightValue">Plant Density Weight</label>
-          <div class="row">
-            <div class="col-xs-6">
-              <input name="plantDensityWeightValue" type="text" ng-model="vm.activity.plantDensityWeightValue" id="plantDensityWeightValue" class="form-control">
-            </div>
-            <div class="col-xs-6">
-              <select name="plantDensityWeightUnit" type="text" ng-model="vm.activity.plantDensityWeightUnit" id="plantDensityWeightUnit" class="form-control">
-                <option value="mm">mm</option>
-                <option value="cm">cm</option>
-                <option value="m">m</option>
-                <option value="km">km</option>
-              </select>
-            </div>
-          </div>
+      </md-autocomplete>
+      <md-autocomplete flex md-input-name="autocompleteActivity" md-no-cache="vm.noCache" md-selected-item="vm.selectedActivity" md-search-text="vm.searchActivity" md-items="item in vm.activitySearch(vm.searchActivity)" md-item-text="item.display" md-require-match md-floating-label="L'activité initiale">
+        <md-item-template>
+          <span md-highlight-text="vm.searchActivity">{{item.display}}</span>
+        </md-item-template>
+        <div ng-messages="vm.form.activityForm.autocompleteActivity.$error" ng-if="vm.form.activityForm.autocompleteActivity.$touched">
+          <div ng-message="md-require-match">Veuillez <b>choisir</b> une activité initiale.</div>
         </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-default">{{vm.activity.id ? 'Update' : 'Create'}}</button>
+      </md-autocomplete>
+      <md-autocomplete flex md-input-name="autocompleteProduct" md-no-cache="vm.noCache" md-selected-item="vm.selectedProduct" md-search-text="vm.searchProduct" md-items="item in vm.productSearch(vm.searchProduct)" md-item-text="item.display" required md-require-match md-floating-label="Produit de l'activité">
+        <md-item-template>
+          <span md-highlight-text="vm.searchProduct">{{item.display}}</span>
+        </md-item-template>
+        <div ng-messages="vm.form.activityForm.autocompleteProduct.$error" ng-if="vm.form.activityForm.autocompleteProduct.$touched">
+          <div ng-message="required">Veuillez <b>choisir</b> le produit de l'activité.</div>
+          <div ng-message="md-require-match">Veuillez <b>choisir</b> un produit valide.</div>
         </div>
-        <div ng-show="vm.error" class="text-danger">
-          <strong ng-bind="vm.error"></strong>
-        </div>
-      </fieldset>
-    </form>
-  </div>
-</section>
+      </md-autocomplete>
+      <center>
+        <md-button type="submit" class="md-primary">{{vm.activity.id ? 'Update' : 'Create'}}</md-button>
+      </center>
+      <div ng-show="vm.error" class="text-danger">
+        <strong ng-bind="vm.error"></strong>
+      </div>
+    </md-card-content>
+  </md-card>
+</form>

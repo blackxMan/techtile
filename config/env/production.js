@@ -17,9 +17,9 @@ module.exports = {
     username: process.env.DB_USERNAME || "inteligferm",
     password: process.env.DB_PASSWORD || "inteligferm",
     dialect: process.env.DB_DIALECT || "postgres", //mysql, postgres, sqlite3,...
-    enableSequelizeLog: process.env.DB_LOG || false,
+    enableSequelizeLog: process.env.DB_LOG || true,
     ssl: process.env.DB_SSL || false,
-    sync: process.env.DB_SYNC || false //Synchronizing any model changes with database
+    sync: process.env.DB_SYNC || true //Synchronizing any model changes with database
   },
   redis: {
     host: process.env.REDIS_HOST || "localhost",

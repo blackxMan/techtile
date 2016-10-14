@@ -9,10 +9,8 @@
 
   function routeConfig($stateProvider) {
     $stateProvider
-      .state('admin', {
-        abstract: true,
+      .state('backoffice.admin', {
         url: '/admin',
-        template: '<ui-view/>',
         data: {
           roles: ['admin']
         }

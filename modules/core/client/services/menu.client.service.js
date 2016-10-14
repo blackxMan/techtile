@@ -13,7 +13,8 @@
       addSubMenuItem: addSubMenuItem,
       defaultRoles: ['user', 'admin'],
       getMenu: getMenu,
-      menus: {},
+      getMenus: getMenus,
+      menus: [],
       removeMenu: removeMenu,
       removeMenuItem: removeMenuItem,
       removeSubMenuItem: removeSubMenuItem,
@@ -29,14 +30,16 @@
       options = options || {};
 
       // Create the new menu
-      service.menus[menuId] = {
+      service.menus.push({
+        id: menuId,
+        caption: options.caption,
         roles: options.roles || service.defaultRoles,
         items: options.items || [],
         shouldRender: shouldRender
-      };
+      });
 
       // Return the menu object
-      return service.menus[menuId];
+      return service.menus[service.menus.length-1];
     }
 
     // Add menu item object
@@ -46,9 +49,13 @@
       // Validate that the menu exists
       service.validateMenuExistence(menuId);
 
+
+      var menu = service.validateMenuExistence(menuId);
+
       // Push new menu item
-      service.menus[menuId].items.push({
+      menu.items.push({
         title: options.title || '',
+        icon: options.icon || '',
         state: options.state || '',
         type: options.type || 'item',
         class: options.class,
@@ -68,7 +75,7 @@
       }
 
       // Return the menu object
-      return service.menus[menuId];
+      return menu;
     }
 
     // Add submenu item object
@@ -76,17 +83,17 @@
       options = options || {};
 
       // Validate that the menu exists
-      service.validateMenuExistence(menuId);
+      var menu = service.validateMenuExistence(menuId);
 
       // Search for menu item
-      for (var itemIndex in service.menus[menuId].items) {
-        if (service.menus[menuId].items[itemIndex].state === parentItemState) {
+      for (var itemIndex in menu.items) {
+        if (menu.items[itemIndex].state === parentItemState) {
           // Push new submenu item
-          service.menus[menuId].items[itemIndex].items.push({
+          menu.items[itemIndex].items.push({
             title: options.title || '',
             state: options.state || '',
             params: options.params || {},
-            roles: ((options.roles === null || typeof options.roles === 'undefined') ? service.menus[menuId].items[itemIndex].roles : options.roles),
+            roles: ((options.roles === null || typeof options.roles === 'undefined') ? menu.items[itemIndex].roles : options.roles),
             position: options.position || 0,
             shouldRender: shouldRender
           });
@@ -94,17 +101,22 @@
       }
 
       // Return the menu object
-      return service.menus[menuId];
+      return menu;
     }
 
     // Get the menu object by menu id
     function getMenu(menuId) {
-      // Validate that the menu exists
-      service.validateMenuExistence(menuId);
 
       // Return the menu object
-      return service.menus[menuId];
+      return service.validateMenuExistence(menuId);
     }
+
+    // Get all menus
+    function getMenus(){
+      return service.menus;
+    }
+
+
 
     function init() {
       // A private function for rendering decision
@@ -132,59 +144,64 @@
 
       // Adding the topbar menu
       addMenu('topbar', {
-        roles: ['*']
+        roles: ['*'],
+        caption: 'Application'
       });
     }
 
     // Remove existing menu object by menu id
     function removeMenu(menuId) {
       // Validate that the menu exists
-      service.validateMenuExistence(menuId);
+      var menu= service.validateMenuExistence(menuId);
 
-      delete service.menus[menuId];
+      //delete menu;
     }
 
     // Remove existing menu object by menu id
     function removeMenuItem(menuId, menuItemState) {
       // Validate that the menu exists
-      service.validateMenuExistence(menuId);
+      var menu = service.validateMenuExistence(menuId);
 
       // Search for menu item to remove
-      for (var itemIndex in service.menus[menuId].items) {
-        if (service.menus[menuId].items.hasOwnProperty(itemIndex) && service.menus[menuId].items[itemIndex].state === menuItemState) {
-          service.menus[menuId].items.splice(itemIndex, 1);
+      for (var itemIndex in menu.items) {
+        if (menu.items.hasOwnProperty(itemIndex) && menu.items[itemIndex].state === menuItemState) {
+          menu.items.splice(itemIndex, 1);
         }
       }
 
       // Return the menu object
-      return service.menus[menuId];
+      return menu;
     }
 
     // Remove existing menu object by menu id
     function removeSubMenuItem(menuId, submenuItemState) {
       // Validate that the menu exists
-      service.validateMenuExistence(menuId);
+      var menu= service.validateMenuExistence(menuId);
 
       // Search for menu item to remove
-      for (var itemIndex in service.menus[menuId].items) {
-        if (this.menus[menuId].items.hasOwnProperty(itemIndex)) {
-          for (var subitemIndex in service.menus[menuId].items[itemIndex].items) {
-            if (this.menus[menuId].items[itemIndex].items.hasOwnProperty(subitemIndex) && service.menus[menuId].items[itemIndex].items[subitemIndex].state === submenuItemState) {
-              service.menus[menuId].items[itemIndex].items.splice(subitemIndex, 1);
+      for (var itemIndex in menu.items) {
+        if (menu.items.hasOwnProperty(itemIndex)) {
+          for (var subitemIndex in menu.items[itemIndex].items) {
+            if (menu.items[itemIndex].items.hasOwnProperty(subitemIndex) && menu.items[itemIndex].items[subitemIndex].state === submenuItemState) {
+              menu.items[itemIndex].items.splice(subitemIndex, 1);
             }
           }
         }
       }
 
       // Return the menu object
-      return service.menus[menuId];
+      return menu;
     }
 
     // Validate menu existance
     function validateMenuExistence(menuId) {
       if (menuId && menuId.length) {
-        if (service.menus[menuId]) {
-          return true;
+        var menu = _.find(service.menus,function(search){
+          return search.id == menuId;
+        });
+
+        if (menu) {
+          return menu;
         } else {
           throw new Error('Menu does not exist');
         }

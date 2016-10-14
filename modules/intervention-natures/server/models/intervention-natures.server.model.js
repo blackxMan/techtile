@@ -14,10 +14,16 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     description: DataTypes.TEXT,
-    defaultParamsValue: DataTypes.JSON,
+    defaultParamsValue: {
+      type: DataTypes.JSON,
+      field: 'default_params_value'
+    }
   }, {
+    underscored: true,
+    freezeTableName: true,
+    tableName: 'intervention_natures',
     associate: function(models) {
-
+      InterventionNature.belongsTo(models.user);
     }
   });
   return InterventionNature;

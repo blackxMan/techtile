@@ -18,6 +18,9 @@ module.exports = function (app) {
     .put(activities.update)
     .delete(activities.delete);
 
+    app.route('/api/lazy/activities').all(activitiesPolicy.isAllowed)
+      .get(activities.lazy)
+
   // Finish by binding the activity middleware
   app.param('activityId', activities.activityByID);
 };

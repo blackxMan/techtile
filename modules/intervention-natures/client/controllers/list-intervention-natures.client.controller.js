@@ -3,7 +3,7 @@
 
   angular
     .module('interventionNatures')
-    .controller('InterventionNaturesListController', InterventionsListController);
+    .controller('InterventionNaturesListController', InterventionNaturesListController);
 
   InterventionNaturesListController.$inject = ['InterventionNaturesService'];
 
