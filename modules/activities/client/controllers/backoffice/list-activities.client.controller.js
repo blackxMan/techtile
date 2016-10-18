@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('products')
+    .module('activities.backoffice')
     .controller('ActivitiesListController', ActivitiesListController);
 
   ActivitiesListController.$inject = ['ActivitiesService','$http','$state'];
@@ -38,7 +38,7 @@
     * Open the edit form
     */
     vm.edit= function(activityId){
-      $state.go('backoffice.admin.activities.edit',{activityId: activityId});
+      $state.go('backoffice.activities.edit',{activityId: activityId});
     }
 
     /**

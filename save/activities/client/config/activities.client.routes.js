@@ -12,7 +12,7 @@
       .state('backoffice.activities', {
         abstract: true,
         url: '/activities',
-        templateUrl: '<ui-view/>'
+        templateUrl: 'layout-backend.client.view.html'
       });
   }
 

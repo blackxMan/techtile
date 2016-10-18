@@ -15,11 +15,11 @@
       roles: ['*']
     });
 
-    // // Add the dropdown list item
-    // menuService.addSubMenuItem('topbar', 'activities', {
-    //   title: 'List Activities',
-    //   state: 'activities.list',
-    //   roles: ['*']
-    // });
+    // Add the dropdown list item
+    menuService.addSubMenuItem('topbar', 'activities', {
+      title: 'List Activities',
+      state: 'activities.list',
+      roles: ['*']
+    });
   }
 }());
