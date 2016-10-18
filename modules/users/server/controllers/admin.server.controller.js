@@ -144,3 +144,13 @@ exports.userByID = function(req, res, next, id) {
   });
 
 };
+
+exports.searchTokenManagers = function(req,res){
+  var startWith = req.params.startWith;
+  User.findAll({attributes:['id',['display_name','displayName']],where:{displayName: {$ilike:'%'+startWith+'%'}}})
+    .then(function(managers){
+      res.json(managers);
+    }).catch(function(err){
+      res.json([]);
+    });
+};

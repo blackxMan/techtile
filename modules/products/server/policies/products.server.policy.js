@@ -39,7 +39,15 @@ exports.invokeRolesPolicies = function () {
       resources: '/api/products/:productId',
       permissions: ['get']
     }]
-  }]);
+  },
+  {
+    roles: ['admin'],
+    allows: [{
+      resources: '/api/ajax/products/startWith/:startWith',
+      permissions: ['get']
+    }]
+  }
+]);
 };
 
 /**

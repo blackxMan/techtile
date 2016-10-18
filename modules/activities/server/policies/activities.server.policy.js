@@ -46,6 +46,20 @@ exports.invokeRolesPolicies = function () {
       resources: '/api/lazy/activities',
       permissions: ['get']
     }]
+  },
+  {
+    roles: ['admin'],
+    allows: [{
+      resources: '/api/ajax/activities/delete/all',
+      permissions: ['post']
+    }]
+  },
+  {
+    roles: ['admin'],
+    allows: [{
+      resources: '/api/ajax/activities/startWith/:startWith',
+      permissions: ['get']
+    }]
   }
 ]);
 };

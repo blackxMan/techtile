@@ -77,16 +77,13 @@ exports.update = function(req, res) {
  */
 exports.delete = function(req, res) {
   var product = req.product;
-  console.log('delete --------------- product : ');
   console.log(product);
   // Find the product
   Product.findById(product.id).then(function(product) {
     if (product) {
-      console.log('product exist ----------->>>> ');
       console.log(product);
       // Delete the product
       product.destroy().then(function() {
-        console.log('destory!!!!!!!------------');
         return res.json(product);
       }).catch(function(err) {
         return res.status(400).send({
@@ -124,6 +121,16 @@ exports.list = function(req, res) {
   }).catch(function(err) {
     res.jsonp(err);
   });
+};
+
+exports.searchTokenProducts = function(req,res){
+  var startWith = req.params.startWith;
+  Product.findAll({attributes:['id','name'],where:{name: {$ilike:'%'+startWith+'%'}}})
+    .then(function(products){
+      res.json(products);
+    }).catch(function(err){
+      res.json([]);
+    });
 };
 
 /**

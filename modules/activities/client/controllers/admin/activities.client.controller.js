@@ -5,7 +5,7 @@
     .module('activities.admin')
     .controller('ActivitiesController', ActivitiesController);
 
-  ActivitiesController.$inject = ['$scope', '$state', '$window', 'activityResolve', 'Authentication','$http','$timeout','$q'];
+  ActivitiesController.$inject = ['$scope', '$state', '$window', 'activityResolve', 'Authentication','$http','$timeout','$q','ActivitiesService','ProductsService','UsersService'];
 
   function ActivitiesController($scope, $state, $window, activity, Authentication, $http, $timeout, $q) {
     var vm = this;
@@ -18,24 +18,18 @@
     vm.remove = remove;
     vm.save = save;
 
-    // list of `manager` value/display objects
-    vm.managers        = [{value:1,display:'Fayssal Tahtoub'},{value:2,display:'Youssef El Heddadi'},{value:3,display:'Rachid El Mechhour'},{value:4,display:'Mohammed Zanna'}];
-    vm.selectedManager = null;
     vm.searchManager    = null;
-    vm.managerSearch   = managerSearch;
+    vm.managerSearch    = managerSearch;
 
-    // list of `activities` value/display objects
-    vm.activities        = [{value:1,display:'Culture du blé en 2016'},{value:2,display:'Culture du pomme de terre en 2016'},{value:3,display:'Laine Rasé 2016'}];
-    vm.selectedActivity = null;
-    vm.searchActivity    = null;
+    vm.searchActivity   = null;
     vm.activitySearch   = activitySearch;
 
-
-    // list of `products` value/display objects
-    vm.products        = [{value:1,display:'Blé'},{value:2,display:'Pomme de terre'}];
-    vm.selectedProduct = null;
     vm.searchProduct    = null;
-    vm.productSearch   = productSearch;
+    vm.productSearch    = productSearch;
+
+    vm.productChange    = productChange;
+    vm.activityChange   = activityChange;
+    vm.managerChange    = managerChange;
 
     // ******************************
     // Internal methods
@@ -45,11 +39,11 @@
      * Search for activities... use $timeout to simulate
      * remote dataservice call.
      */
-    function activitySearch (query) {
-      var results = query ? vm.activities.filter( createFilterFor(query) ) : vm.activities;
-      var deferred = $q.defer();
-      $timeout(function () { deferred.resolve( results ); }, Math.random() * 1000, false);
-      return deferred.promise;
+    function activitySearch (searchToken) {
+      return $http.get('/api/ajax/activities/startWith/'+searchToken)
+        .then(function(res){
+          return res.data;
+        });
     }
 
 
@@ -62,11 +56,11 @@
      * Search for managers... use $timeout to simulate
      * remote dataservice call.
      */
-    function managerSearch (query) {
-      var results = query ? vm.managers.filter( createFilterFor(query) ) : vm.managers;
-      var deferred = $q.defer();
-      $timeout(function () { deferred.resolve( results ); }, Math.random() * 1000, false);
-      return deferred.promise;
+    function managerSearch (searchToken) {
+      return $http.get('/api/ajax/managers/startWith/'+searchToken)
+        .then(function(res){
+          return res.data;
+        });
     }
 
     // ******************************
@@ -77,25 +71,11 @@
      * Search for products... use $timeout to simulate
      * remote dataservice call.
      */
-    function productSearch (query) {
-      var results = query ? vm.products.filter( createFilterFor(query) ) : vm.products;
-      var deferred = $q.defer();
-      $timeout(function () { deferred.resolve( results ); }, Math.random() * 1000, false);
-      return deferred.promise;
-    }
-
-    /**
-     * Create filter function for a query string
-     */
-    function createFilterFor(query) {
-      console.log(query);
-      var lowercaseQuery = angular.lowercase(query);
-
-      return function filterFn(data) {
-        var queryItem= angular.lowercase(data.display);
-        return (queryItem.indexOf(lowercaseQuery) === 0);
-      };
-
+    function productSearch (searchToken) {
+      return $http.get('/api/ajax/products/startWith/'+searchToken)
+        .then(function(res){
+          return res.data;
+        });
     }
 
     // Remove existing Product
@@ -103,7 +83,7 @@
       if ($window.confirm('Are you sure you want to delete?')) {
         vm.activity.$remove(
           function(res){
-            $state.go('admin.activities.list')
+            $state.go('backoffice.admin.activities.list')
           },
           function(err){
             console.log('err activities');
@@ -113,8 +93,30 @@
       }
     }
 
+    function productChange(item){
+      if(item)
+        vm.activity.product_id = item.id;
+      else
+        vm.activity.product_id = null;
+    }
+
+    function managerChange(item){
+      if(item)
+        vm.activity.manager_id = item.id;
+      else
+        vm.activity.manager_id = null;
+    }
+
+    function activityChange(item){
+      if(item)
+        vm.activity.parent_id = item.id;
+      else
+        vm.activity.parent_id = null;
+    }
+
     // Save Activity
     function save(isValid) {
+
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.form.activityForm');
         return false;
@@ -126,7 +128,7 @@
         .catch(errorCallback);
 
       function successCallback(res) {
-        $state.go('admin.activities.list'); // should we send the User to the list or the updated Product's view?
+        $state.go('backoffice.admin.activities.list'); // should we send the User to the list or the updated Product's view?
       }
 
       function errorCallback(res) {

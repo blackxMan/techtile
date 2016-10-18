@@ -18,6 +18,9 @@ module.exports = function (app) {
     .put(products.update)
     .delete(products.delete);
 
+  app.route('/api/ajax/products/startWith/:startWith').all(productsPolicy.isAllowed)
+    .get(products.searchTokenProducts);
+
   // Finish by binding the product middleware
   app.param('productId', products.productByID);
 };

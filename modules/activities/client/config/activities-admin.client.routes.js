@@ -32,17 +32,26 @@
           roles: ['admin']
         }
       })
-      .state('admin.activities.create', {
+      .state('backoffice.admin.activities.create', {
         url: '/create',
-        templateUrl: 'modules/activities/client/views/admin/form-activity.client.view.html',
-        controller: 'ActivitiesController',
-        controllerAs: 'vm',
+        views:{
+          "content@backoffice":{
+            templateUrl: 'modules/activities/client/views/admin/form-activity.client.view.html',
+            controller: 'ActivitiesController',
+            controllerAs: 'vm',
+            resolve: {
+              activityResolve: newActivity
+            }
+          },
+          "sidebar@backoffice":{
+            templateUrl: 'modules/core/client/views/sidebar_left.client.view.html',
+            controller: 'SidebarController',
+            controllerAs: 'vm',
+          }
+        },
         data: {
           roles: ['admin']
         },
-        resolve: {
-          activityResolve: newActivity
-        }
       })
       .state('backoffice.admin.activities.edit', {
         url: '/:activityId/edit',
@@ -79,6 +88,9 @@
   newActivity.$inject = ['ActivitiesService'];
 
   function newActivity(ActivitiesService) {
-    return new ActivitiesService();
+    var activity = new ActivitiesService();
+    activity.startAt = Date.now();
+    activity.endAt = Date.now();
+    return activity;
   }
 }());

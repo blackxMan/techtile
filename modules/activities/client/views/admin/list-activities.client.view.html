@@ -43,13 +43,13 @@
           <td md-cell>{{activity.realBudget}}</td>
           <td md-cell>{{activity.startAt | date:'mediumDate'}}</td>
           <td md-cell>{{activity.endAt | date:'mediumDate'}}</td>
-          <td md-cell>{{activity.Product.name}}</td>
-          <td md-cell>{{activity.Manager.displayName}}</td>
+          <td md-cell>{{activity.product.name}}</td>
+          <td md-cell>{{activity.manager.displayName}}</td>
           <td md-cell>
             <md-button class="md-icon-button" ng-click="vm.edit(activity.id)">
               <md-icon>edit</md-icon>
             </md-button>
-            <md-button class="md-icon-button" ng-click="vm.delete(activity.id)">
+            <md-button class="md-icon-button" ng-click="vm.deleteItems(activity.id)">
               <md-icon>delete</md-icon>
             </md-button>
           </td>

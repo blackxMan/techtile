@@ -5,9 +5,9 @@
     .module('activities.services')
     .factory('ActivitiesService', ActivitiesService);
 
-  ActivitiesService.$inject = ['$resource'];
+  ActivitiesService.$inject = ['$resource','$http'];
 
-  function ActivitiesService($resource) {
+  function ActivitiesService($resource,$http) {
     var Activity = $resource('api/activities/:activityId', {
       activityId: '@id'
     }, {

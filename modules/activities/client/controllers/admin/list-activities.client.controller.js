@@ -10,11 +10,7 @@
   function ActivitiesListController(ActivitiesService,$http,$state) {
     var vm = this;
 
-    //vm.activities = ActivitiesService.query();
-
     vm.selectedItems = [];
-
-    console.log('dazt');
 
     vm.dtConfig = {
       order: 'name',
@@ -31,21 +27,43 @@
       console.log('error !!');
     }
 
+    /**
+    * get the list of items
+    */
     vm.getActivities = function () {
       vm.promise = $http.get('/api/lazy/activities',{params:vm.dtConfig}).then(success,error).$promise;
     };
 
+    /**
+    * Open the edit form
+    */
     vm.edit= function(activityId){
-      console.log('edit');
       $state.go('backoffice.admin.activities.edit',{activityId: activityId});
     }
 
-    vm.delete= function(activityId){
-      admin.activities.edit({activityId: activity.id})
-    }
+    /**
+    * delete one or selected item
+    */
+    vm.deleteItems= function(itemToDelete){
+      var selectedIds= [];
 
-    vm.deleteItems= function(){
-      
+      if(itemToDelete){
+        selectedIds.push(itemToDelete);
+      }else{
+        _.each(vm.selectedItems,function(item){
+          selectedIds.push(item.id);
+        });
+      }
+
+
+      $http.post('api/ajax/activities/delete/all',{itemsToDelete: selectedIds})
+        .then(function(res){
+          vm.selectedItems = [];
+          vm.getActivities();
+        },function(err){
+          console.log(err);
+        });
+
     }
   }
 }());

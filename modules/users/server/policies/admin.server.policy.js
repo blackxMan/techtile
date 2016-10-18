@@ -21,7 +21,15 @@ exports.invokeRolesPolicies = function () {
       resources: '/api/users/:userId',
       permissions: '*'
     }]
-  }]);
+  },
+  {
+    roles: ['admin'],
+    allows: [{
+      resources: '/api/ajax/managers/startWith/:startWith',
+      permissions: ['get']
+    }]
+  }
+]);
 };
 
 /**

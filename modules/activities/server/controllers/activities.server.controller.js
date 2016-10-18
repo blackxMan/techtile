@@ -6,6 +6,7 @@
 var path = require('path'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   db = require(path.resolve('./config/lib/sequelize')).models,
+  _ = require('lodash'),
   Activity = db.activity;
 
 /**
@@ -34,7 +35,6 @@ exports.create = function(req, res) {
  * Show the current activity
  */
 exports.read = function(req, res) {
-  console.log('----------- > > > call here !!!');
   res.json(req.activity);
 };
 
@@ -43,12 +43,12 @@ exports.read = function(req, res) {
  */
 exports.update = function(req, res) {
   var activity = req.activity;
+  var updatedAttr = _.clone(req.body);
 
-  activity.updateAttributes({
-    name: req.body.name,
-    description: req.body.description,
+  //delete the field that you want to protect from change
+  updatedAttr = _.omit(updatedAttr,'id','user_id','user');
 
-  }).then(function(activity) {
+  activity.updateAttributes(updatedAttr).then(function(activity) {
     res.json(activity);
   }).catch(function(err) {
     return res.status(400).send({
@@ -65,9 +65,7 @@ exports.delete = function(req, res) {
   // Find the activity
   Activity.findById(activity.id).then(function(activity) {
     if (activity) {
-      console.log(activity);
-      // Delete the activity
-      activity.destroy().then(function() {
+      activity.update({deletedAt: Date.now()}).then(function() {
         return res.json(activity);
       }).catch(function(err) {
         return res.status(400).send({
@@ -126,7 +124,8 @@ exports.lazy= function(req,res){
      order: column+' '+orderType,
      offset: offset,
      limit: limit,
-     include:[{model: db.product, as: 'Product', attributes:['name']},{model: db.user, as: 'Manager', attributes:['displayName']}]
+     where:{deletedAt:{$eq: null}},
+     include:[{model: db.product, as: 'product', attributes:['id','name']},{model: db.user, as: 'manager', attributes:['id','displayName']}]
   })
   .then(function(result) {
     res.json(result);
@@ -138,7 +137,30 @@ exports.lazy= function(req,res){
 
 };
 
-exports.deleteAll
+/**
+* delete all item
+*/
+exports.deleteAll= function(req,res){
+  var itemsToDelete= req.body.itemsToDelete;
+
+  Activity.update({deletedAt: Date.now()},{ where: {id: {$in: itemsToDelete}}})
+    .then(function(updatedRow){
+      res.json({deletedRow:updatedRow})
+    }).catch(function(err){
+      res.status(404).send({message:"can't deleteing items!!"});
+    });
+}
+
+
+exports.searchTokenActivities = function(req,res){
+  var startWith = req.params.startWith;
+  Activity.findAll({attributes:['id','name'],where:{name: {$ilike:'%'+startWith+'%'}}})
+    .then(function(activities){
+      res.json(activities);
+    }).catch(function(err){
+      res.json([]);
+    });
+};
 
 /**
  * Activity middleware
@@ -156,8 +178,18 @@ exports.activityByID = function(req, res, next, id) {
       id: id
     },
     include: [{
-      model: db.user
-    }]
+      model: db.user, attributes:['id','displayName']
+    },
+    {
+      model: db.product, as:'product', attributes:['id','name']
+    },
+    {
+      model: db.user, as:'manager', attributes:['id','displayName']
+    },
+    {
+      model: Activity, as:'parent', attributes:['id','name']
+    },
+  ]
   }).then(function(activity) {
     if (!activity) {
       return res.status(404).send({

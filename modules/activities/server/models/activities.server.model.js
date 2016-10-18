@@ -13,6 +13,18 @@ module.exports = function(sequelize, DataTypes) {
         },
       }
     },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+      field: 'created_at'
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+      field: 'updated_at'
+    },
     startAt: {
       type: DataTypes.DATE,
       allowNull: false,
@@ -24,6 +36,11 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       defaultValue: DataTypes.NOW,
       field: 'end_at'
+    },
+    deletedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      field: 'deleted_at'
     },
     description: {
       type: DataTypes.TEXT,
@@ -46,12 +63,13 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     underscored: true,
     freezeTableName: true,
+    timestamps: false,
     tableName: 'activities',
     associate: function(models) {
       Activity.belongsTo(models.user);
-      Activity.belongsTo(models.user,{as:'Manager', foreignKey: 'manager_id'});
-      Activity.belongsTo(models.product,{as:'Product', foreignKey: 'product_id'});
-      Activity.hasOne(Activity,{as:'Parent',foreignKey: 'parent_id'});
+      Activity.belongsTo(models.user,{as:'manager', foreignKey: 'manager_id'});
+      Activity.belongsTo(models.product,{as:'product', foreignKey: 'product_id'});
+      Activity.belongsTo(Activity,{as:'parent',foreignKey: 'parent_id'});
     }
   });
   return Activity;
