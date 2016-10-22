@@ -2,13 +2,15 @@
   'use strict';
 
   angular
-    .module('products.admin')
+    .module('products.backoffice')
     .controller('ProductsController', ProductsController);
 
   ProductsController.$inject = ['$scope', '$state', '$window', 'productResolve', 'Authentication','$http'];
 
   function ProductsController($scope, $state, $window, product, Authentication,$http) {
     var vm = this;
+
+    product.bornAt = new Date(product.bornAt);
 
     vm.product = product;
     vm.authentication = Authentication;
@@ -22,7 +24,7 @@
       if ($window.confirm('Are you sure you want to delete?')) {
         vm.product.$remove(
           function(res){
-            $state.go('admin.products.list')
+            $state.go('backoffice.products.list')
           },
           function(err){
             console.log('err product');
@@ -34,6 +36,9 @@
 
     // Save Product
     function save(isValid) {
+      console.log('vm.product :');
+      console.log(vm.product);
+
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.form.productForm');
         return false;
@@ -45,7 +50,7 @@
         .catch(errorCallback);
 
       function successCallback(res) {
-        $state.go('admin.products.list'); // should we send the User to the list or the updated Product's view?
+        $state.go('backoffice.products.list'); // should we send the User to the list or the updated Product's view?
       }
 
       function errorCallback(res) {

@@ -21,28 +21,44 @@ module.exports = function(sequelize, DataTypes) {
     },
     deathAt: {
       type: DataTypes.DATE,
+      allowNull: true,
+      field: 'death_at'
+    },
+    createdAt: {
+      type: DataTypes.DATE,
       allowNull: false,
       defaultValue: DataTypes.NOW,
-      field: 'death_at'
+      field: 'created_at'
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+      field: 'updated_at'
+    },
+    deletedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      field: 'deleted_at'
     },
     description: DataTypes.TEXT,
     picture: DataTypes.STRING,
     geo: DataTypes.JSON,
     color: DataTypes.STRING,
     maxWeight: {
-      type:DataTypes.INTEGER,
+      type:DataTypes.DOUBLE,
       field: 'max_weight'
     },
     minWeight: {
-      type:DataTypes.INTEGER,
+      type:DataTypes.DOUBLE,
       field: 'min_weight'
     },
     minHeight: {
-      type:DataTypes.INTEGER,
+      type:DataTypes.DOUBLE,
       field: 'min_height'
     },
     maxHeight: {
-      type:DataTypes.INTEGER,
+      type:DataTypes.DOUBLE,
       field: 'max_height'
     },
     heightMeasureUnit: {
@@ -73,6 +89,7 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     underscored: true,
     freezeTableName: true,
+    timestamps: false,
     tableName: 'products',
     associate: function(models) {
       Product.belongsTo(models.product,{as:'Mother',foreignKey:'mother_id'});

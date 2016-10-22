@@ -9,7 +9,7 @@ var acl = require('acl');
 acl = new acl(new acl.memoryBackend());
 
 /**
- * Invoke Parcels Permissions
+ * Invoke Products Permissions
  */
 exports.invokeRolesPolicies = function () {
   acl.allow([{
@@ -39,11 +39,33 @@ exports.invokeRolesPolicies = function () {
       resources: '/api/parcels/:parcelId',
       permissions: ['get']
     }]
-  }]);
+  },
+  {
+    roles: ['user','admin','guest'],
+    allows: [{
+      resources: '/api/lazy/parcels',
+      permissions: ['get']
+    }]
+  },
+  {
+    roles: ['admin'],
+    allows: [{
+      resources: '/api/ajax/parcels/delete/all',
+      permissions: ['post']
+    }]
+  },
+  {
+    roles: ['admin'],
+    allows: [{
+      resources: '/api/ajax/parcels/startWith/:startWith',
+      permissions: ['get']
+    }]
+  }
+]);
 };
 
 /**
- * Check If Parcels Policy Allows
+ * Check If Products Policy Allows
  */
 exports.isAllowed = function (req, res, next) {
 

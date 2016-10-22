@@ -13,18 +13,6 @@ module.exports = function(sequelize, DataTypes) {
         },
       }
     },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-      field: 'created_at'
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: DataTypes.NOW,
-      field: 'updated_at'
-    },
     bornAt: {
       type: DataTypes.DATE,
       allowNull: false,
@@ -34,21 +22,14 @@ module.exports = function(sequelize, DataTypes) {
     deathAt: {
       type: DataTypes.DATE,
       allowNull: true,
+      defaultValue: DataTypes.NOW,
       field: 'death_at'
     },
-    deletedAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-      field: 'deleted_at'
-    },
     description: DataTypes.TEXT,
-    position: {
-      type: DataTypes.GEOMETRY,
-      allowNull: true
-    },
-    form: {
-      type: DataTypes.GEOMETRY,
-      allowNull: true
+    geo: DataTypes.JSON,
+    shapeForm: {
+      type: DataTypes.JSON,
+      field: 'shape_form'
     },
     color: DataTypes.STRING,
     state: DataTypes.STRING,

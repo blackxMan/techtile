@@ -5,12 +5,14 @@
     .module('activities.backoffice')
     .controller('ActivitiesController', ActivitiesController);
 
-  ActivitiesController.$inject = ['$scope', '$state', '$window', 'activityResolve', 'Authentication','$http','$timeout','$q','ActivitiesService','ProductsService','UsersService'];
+  ActivitiesController.$inject = ['$scope', '$state', '$window', 'activityResolve', 'Authentication','$http','$q','ActivitiesService','ProductsService','UsersService'];
 
-  function ActivitiesController($scope, $state, $window, activity, Authentication, $http, $timeout, $q) {
+  function ActivitiesController($scope, $state, $window, activity, Authentication, $http, $q) {
     var vm = this;
+
     activity.startAt = new Date(activity.startAt);
     activity.endAt = new Date(activity.endAt);
+
     vm.activity = activity;
     vm.authentication = Authentication;
     vm.error = null;
@@ -36,7 +38,7 @@
     // ******************************
 
     /**
-     * Search for activities... use $timeout to simulate
+     * Search for activities...
      * remote dataservice call.
      */
     function activitySearch (searchToken) {
@@ -46,14 +48,12 @@
         });
     }
 
-
-
     // ******************************
     // Internal methods
     // ******************************
 
     /**
-     * Search for managers... use $timeout to simulate
+     * Search for managers...
      * remote dataservice call.
      */
     function managerSearch (searchToken) {
@@ -68,7 +68,7 @@
     // ******************************
 
     /**
-     * Search for products... use $timeout to simulate
+     * Search for products...
      * remote dataservice call.
      */
     function productSearch (searchToken) {

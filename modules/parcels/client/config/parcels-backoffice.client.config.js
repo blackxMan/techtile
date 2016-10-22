@@ -1,17 +1,18 @@
 ﻿(function () {
   'use strict';
 
-  // Configuring the Products Admin module
+  // Configuring the Parcels backoffice module
   angular
-    .module('products.admin')
+    .module('parcels.backoffice')
     .run(menuConfig);
 
   menuConfig.$inject = ['menuService'];
 
   function menuConfig(Menus) {
     Menus.addSubMenuItem('topbar', 'admin', {
-      title: 'Manage Products',
-      state: 'admin.products.list'
+      title: 'Manage Parcels',
+      state: 'backoffice.parcels.list',
+      icon:  'dashboard'
     });
   }
 }());

@@ -1,0 +1,60 @@
+
+<md-card style="padding:0px" ng-init="vm.getProducts()">
+  <md-toolbar class="md-table-toolbar md-default" ng-hide="vm.selectedItems.length">
+    <div class="md-toolbar-tools">
+      <span>Produits</span>
+      <div flex></div>
+      <md-button class="md-icon-button" ng-click="vm.getProducts()">
+        <md-icon>refresh</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-toolbar class="md-table-toolbar alternate" ng-show="vm.selectedItems.length">
+    <div class="md-toolbar-tools">
+      <span>{{vm.selectedItems.length}} {{vm.selectedItems.length > 1 ? 'items' : 'item'}} selected</span>
+      <div flex></div>
+      <md-button class="md-icon-button" ng-click="vm.deleteItems()">
+        <md-icon style="color:#fff;">delete</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+
+  <!-- exact table from live demo -->
+  <md-table-container>
+    <table md-table md-row-select multiple ng-model="vm.selectedItems" md-progress="vm.promise">
+      <thead md-head md-order="vm.dtConfig.order" md-on-reorder="vm.getProducts">
+        <tr md-row>
+          <th md-column md-order-by="name"><span>Nom de produit</span></th>
+          <th md-column md-order-by="bornAt"><span>Date de naissance</span></th>
+          <th md-column md-order-by="deathAt"><span>Date de décès</span></th>
+          <th md-column md-numeric>Minimum weight</th>
+          <th md-column md-numeric>Maximum weight</th>
+          <th md-column md-numeric>Minimum height</th>
+          <th md-column md-numeric>Maximum height</th>
+          <th md-column style="text-align: center;">Actions</th>
+        </tr>
+      </thead>
+      <tbody md-body>
+        <tr md-row md-select="product" md-select-id="name" md-auto-select ng-repeat="product in vm.products.rows">
+          <td md-cell>{{product.name}}</td>
+          <td md-cell>{{product.bornAtv| date:'mediumDate'}}</td>
+          <td md-cell>{{product.deathAt | date:'mediumDate'}}</td>
+          <td md-cell>{{product.minWeight +' '+product.weightMeasureUnit}}</td>
+          <td md-cell>{{product.maxWeight +' '+product.weightMeasureUnit}}</td>
+          <td md-cell>{{product.minHeight +' '+product.heightMeasureUnit}}</td>
+          <td md-cell>{{product.maxHeight +' '+product.heightMeasureUnit}}</td>
+          <td md-cell>
+            <md-button class="md-icon-button" ng-click="vm.edit(product.id)">
+              <md-icon>edit</md-icon>
+            </md-button>
+            <md-button class="md-icon-button" ng-click="vm.deleteItems(product.id)">
+              <md-icon>delete</md-icon>
+            </md-button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </md-table-container>
+
+  <md-table-pagination md-limit="vm.dtConfig.limit" md-limit-options="[5, 10, 15, 25, 50]" md-page="vm.dtConfig.page" md-total="{{vm.products.count}}" md-on-paginate="vm.getProducts" md-page-select></md-table-pagination>
+</md-card>

@@ -1,0 +1,64 @@
+
+<form name="vm.form.parcelForm"  ng-submit="vm.save(vm.form.parcelForm.$valid)" novalidate>
+  <md-card>
+    <md-card-content>
+      <md-input-container class="md-block flex-gt-sm" flex-gt-sm="" md-require-match required>
+        <label for="name">Name</label>
+        <input ng-model="vm.parcel.name" class="md-input" name="name" id="name" aria-invalid="false" style="">
+        <div ng-messages="vm.form.parcelForm.name.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Parcel name is required.</p>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label for="description">Description</label>
+        <textarea name="description" data-ng-model="vm.parcel.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+      </md-input-container>
+      <div layout-gt-xs="row">
+        <md-input-container class="md-block" flex-gt-xs>
+          <label>Date de creation:</label>
+          <md-datepicker ng-model="vm.parcel.bornAt" name="bornAt" flex></md-datepicker>
+          <div ng-messages="vm.form.parcelForm.bornAt.$error">
+            <div ng-message="valid">The entered value is not a date!</div>
+            <div ng-message="required">This date is required!</div>
+          </div>
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-xs>
+          <label>Date de suppression:</label>
+          <md-datepicker ng-model="vm.parcel.deathAt" name="deathAt" flex></md-datepicker>
+          <div ng-messages="vm.form.parcelForm.deathAt.$error">
+            <div ng-message="valid">The entered value is not a date!</div>
+            <div ng-message="required">This date is required!</div>
+          </div>
+        </md-input-container>
+      </div>
+      <div layout-gt-xs="row">
+        <div md-color-picker label="Choose a color" icon="brush" default="#f00" md-color-generic-palette="false" md-color-history="false" ng-model="vm.parcel.color"></div>
+      </div>
+      <div layout-gt-xs="row">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Surface:</label>
+          <input ng-model="vm.parcel.surfaceValue" class="md-input">
+          <div ng-messages="vm.form.parcelForm.surfaceValue.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">la surface de la terre est recommande.</p>
+          </div>
+        </md-input-container>
+        <md-select ng-model="vm.parcel.surfaceUnit" placeholder="Unite" class="md-no-underline">
+          <md-option value="m2">M<sup>2</sup></md-option>
+          <md-option value="km2">Km<sup>2</sup></md-option>
+        </md-select>
+      </div>
+      <center>
+        <md-button type="submit" class="md-primary">{{vm.parcel.id ? 'Update' : 'Create'}}</md-button>
+      </center>
+      <div ng-show="vm.error" class="text-danger">
+        <strong ng-bind="vm.error"></strong>
+      </div>
+    </md-card-content>
+    <md-card-footer>
+      <md-button class="md-icon-button" ng-click="vm.editParcelShape()">
+        <md-icon>edit</md-icon>
+      </md-button>
+      <leaflet  lf-center="vm.london" controls="vm.controls" layers="vm.layers" width="100%" height="400"></leaflet>
+    </md-card-footer>
+  </md-card>
+</form>

@@ -6,7 +6,6 @@
 var path = require('path'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   db = require(path.resolve('./config/lib/sequelize')).models,
-  _ = require('lodash'),
   Parcel = db.parcel;
 
 /**
@@ -14,6 +13,9 @@ var path = require('path'),
  */
 exports.create = function(req, res) {
   req.body.userId = req.user.id;
+
+  console.log('parcel data : ');
+  console.log(req.body);
 
   Parcel.create(req.body).then(function(parcel) {
     if (!parcel) {
@@ -24,8 +26,8 @@ exports.create = function(req, res) {
       return res.jsonp(parcel);
     }
   }).catch(function(err) {
-    console.log('----------------------->');
-    console.log(JSON.stringify(err));
+    console.log('----------------------- err : ');
+    console.log(err);
     return res.status(400).send({
       message: errorHandler.getErrorMessage(err)
     });
@@ -44,15 +46,21 @@ exports.read = function(req, res) {
  */
 exports.update = function(req, res) {
   var parcel = req.parcel;
-  var updatedAttr = _.clone(req.body);
 
-  //delete the field that you want to protect from change
-  updatedAttr = _.omit(updatedAttr,'id','user_id','user');
-
-  parcel.updateAttributes(updatedAttr).then(function(parcel) {
+  parcel.updateAttributes({
+    name: req.body.name,
+    description: req.body.description,
+    bornAt: req.body.bornAt,
+    deathAt: req.body.deathAt,
+    geo: req.body.geo,
+    shapeForm: req.body.shapeForm,
+    color: req.body.color,
+    state: req.body.state,
+    surfaceUnit: req.body.surfaceUnit,
+    surfaceValue: req.body.surfaceValue,
+  }).then(function(parcel) {
     res.json(parcel);
   }).catch(function(err) {
-    console.log(JSON.stringify(err));
     return res.status(400).send({
       message: errorHandler.getErrorMessage(err)
     });
@@ -64,10 +72,13 @@ exports.update = function(req, res) {
  */
 exports.delete = function(req, res) {
   var parcel = req.parcel;
+
   // Find the parcel
   Parcel.findById(parcel.id).then(function(parcel) {
     if (parcel) {
-      parcel.update({deletedAt: Date.now()}).then(function() {
+
+      // Delete the parcel
+      parcel.destroy().then(function() {
         return res.json(parcel);
       }).catch(function(err) {
         return res.status(400).send({
@@ -93,75 +104,18 @@ exports.delete = function(req, res) {
  */
 exports.list = function(req, res) {
   Parcel.findAll({
-    include: []
+    include: [db.user]
   }).then(function(parcels) {
     if (!parcels) {
       return res.status(404).send({
-        message: 'No product found'
+        message: 'No parcel found'
       });
     } else {
       res.json(parcels);
     }
-  })
-  .catch(function(err) {
-    res.status(404).send({message:'Error fetching data'});
+  }).catch(function(err) {
+    res.jsonp(err);
   });
-};
-
-/**
-* lazy load from client
-*/
-exports.lazy= function(req,res){
-  var limit= req.query.limit;
-  var offset= (req.query.page-1)*limit;
-  var column = req.query.order;
-  var orderType='ASC';
-
-  if(column.indexOf('-') != -1){
-    orderType= 'DESC';
-    column= column.replace('-','');
-  }
-
-  Parcel.findAndCountAll({
-     order: column+' '+orderType,
-     offset: offset,
-     limit: limit,
-     where:{deletedAt:{$eq: null}},
-     include:[]
-  })
-  .then(function(result) {
-    res.json(result);
-  }).catch(function(err){
-    console.log(err);
-    if(err)
-      res.json({count:0,rows:[]});
-  });
-
-};
-
-/**
-* delete all item
-*/
-exports.deleteAll= function(req,res){
-  var itemsToDelete= req.body.itemsToDelete;
-
-  Parcel.update({deletedAt: Date.now()},{ where: {id: {$in: itemsToDelete}}})
-    .then(function(updatedRow){
-      res.json({deletedRow:updatedRow})
-    }).catch(function(err){
-      res.status(404).send({message:"can't deleteing items!!"});
-    });
-}
-
-
-exports.searchTokenParcels = function(req,res){
-  var startWith = req.params.startWith;
-  Parcel.findAll({attributes:['id','name'],where:{name: {$ilike:'%'+startWith+'%'}}})
-    .then(function(parcels){
-      res.json(parcels);
-    }).catch(function(err){
-      res.json([]);
-    });
 };
 
 /**
@@ -180,10 +134,9 @@ exports.parcelByID = function(req, res, next, id) {
       id: id
     },
     include: [{
-      model: db.user, attributes:['id','displayName']
-    }
-  ]
-}).then(function(parcel) {
+      model: db.user
+    }]
+  }).then(function(parcel) {
     if (!parcel) {
       return res.status(404).send({
         message: 'No parcel with that identifier has been found'

@@ -3,15 +3,15 @@
 
   // Configuring the Products backoffice module
   angular
-    .module('activities.backoffice')
+    .module('products.backoffice')
     .run(menuConfig);
 
   menuConfig.$inject = ['menuService'];
 
   function menuConfig(Menus) {
     Menus.addSubMenuItem('topbar', 'admin', {
-      title: 'Manage Activities',
-      state: 'backoffice.activities.list',
+      title: 'Manage Products',
+      state: 'backoffice.products.list',
       icon:  'dashboard'
     });
   }

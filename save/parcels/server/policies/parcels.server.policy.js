@@ -9,70 +9,48 @@ var acl = require('acl');
 acl = new acl(new acl.memoryBackend());
 
 /**
- * Invoke Products Permissions
+ * Invoke Parcels Permissions
  */
 exports.invokeRolesPolicies = function () {
   acl.allow([{
     roles: ['admin'],
     allows: [{
-      resources: '/api/products',
+      resources: '/api/parcels',
       permissions: '*'
     }, {
-      resources: '/api/products/:productId',
+      resources: '/api/parcels/:parcelId',
       permissions: '*'
     }]
   }, {
     roles: ['user'],
     allows: [{
-      resources: '/api/products',
+      resources: '/api/parcels',
       permissions: ['get']
     }, {
-      resources: '/api/products/:productId',
+      resources: '/api/parcels/:parcelId',
       permissions: ['get']
     }]
   }, {
     roles: ['guest'],
     allows: [{
-      resources: '/api/products',
+      resources: '/api/parcels',
       permissions: ['get']
     }, {
-      resources: '/api/products/:productId',
+      resources: '/api/parcels/:parcelId',
       permissions: ['get']
     }]
-  },
-  {
-    roles: ['user','admin','guest'],
-    allows: [{
-      resources: '/api/lazy/products',
-      permissions: ['get']
-    }]
-  },
-  {
-    roles: ['admin'],
-    allows: [{
-      resources: '/api/ajax/products/delete/all',
-      permissions: ['post']
-    }]
-  },
-  {
-    roles: ['admin'],
-    allows: [{
-      resources: '/api/ajax/products/startWith/:startWith',
-      permissions: ['get']
-    }]
-  }
-]);
+  }]);
 };
 
 /**
- * Check If Products Policy Allows
+ * Check If Parcels Policy Allows
  */
 exports.isAllowed = function (req, res, next) {
 
   var roles = (req.user) ? req.user.roles : ['guest'];
 
-  // If an product is being processed and the current user created it then allow any manipulation
-  if (req.product && req.user && req.product.user && req.product.user.id === req.user.id) {
+  // If an parcel is being processed and the current user created it then allow any manipulation
+  if (req.parcel && req.user && req.parcel.user && req.parcel.user.id === req.user.id) {
     return next();
   }
 

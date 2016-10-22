@@ -18,8 +18,15 @@ module.exports = function (app) {
     .put(products.update)
     .delete(products.delete);
 
+  app.route('/api/ajax/products/delete/all').all(productsPolicy.isAllowed)
+    .post(products.deleteAll);
+
   app.route('/api/ajax/products/startWith/:startWith').all(productsPolicy.isAllowed)
     .get(products.searchTokenProducts);
+
+
+  app.route('/api/lazy/products').all(productsPolicy.isAllowed)
+    .get(products.lazy);
 
   // Finish by binding the product middleware
   app.param('productId', products.productByID);
