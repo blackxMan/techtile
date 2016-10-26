@@ -10,8 +10,20 @@ module.exports = function(sequelize, DataTypes) {
         len: {
           args: [1, 250],
           msg: "Intervention name must be between 1 and 250 characters in length"
-        },
+        }
       }
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+      field: 'created_at'
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+      field: 'updated_at'
     },
     startAt: {
       type: DataTypes.DATE,
@@ -24,6 +36,11 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       defaultValue: DataTypes.NOW,
       field: 'end_at'
+    },
+    deletedAt:{
+      type: DataTypes.DATE,
+      allowNull: true,
+      field: 'deleted_at'
     },
     description: DataTypes.TEXT,
     prescriptionId: {

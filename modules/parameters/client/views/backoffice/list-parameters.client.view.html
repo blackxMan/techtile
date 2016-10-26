@@ -1,0 +1,50 @@
+
+<md-card style="padding:0px" ng-init="vm.getInterventionNatures()">
+  <md-toolbar class="md-table-toolbar md-default" ng-hide="vm.selectedItems.length">
+    <div class="md-toolbar-tools">
+      <span>Intervention Natures</span>
+      <div flex></div>
+      <md-button class="md-icon-button" ng-click="vm.getInterventionNatures()">
+        <md-icon>refresh</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-toolbar class="md-table-toolbar alternate" ng-show="vm.selectedItems.length">
+    <div class="md-toolbar-tools">
+      <span>{{vm.selectedItems.length}} {{vm.selectedItems.length > 1 ? 'items' : 'item'}} selected</span>
+      <div flex></div>
+      <md-button class="md-icon-button" ng-click="vm.deleteItems()">
+        <md-icon style="color:#fff;">delete</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+
+  <!-- exact table from live demo -->
+  <md-table-container>
+    <table md-table md-row-select multiple ng-model="vm.selectedItems" md-progress="vm.promise">
+      <thead md-head md-order="vm.dtConfig.order" md-on-reorder="vm.getInterventionNatures">
+        <tr md-row>
+          <th md-column md-order-by="name"><span>Nom d'intervention</span></th>
+          <th md-column md-numeric>Description</th>
+          <th md-column style="text-align: center;">Actions</th>
+        </tr>
+      </thead>
+      <tbody md-body>
+        <tr md-row md-select="interventionNature" md-select-id="name" md-auto-select ng-repeat="interventionNature in vm.interventionNatures.rows">
+          <td md-cell>{{interventionNature.name}}</td>
+          <td md-cell>{{interventionNature.description}}</td>
+          <td md-cell style="text-align:center;">
+            <md-button class="md-icon-button" ng-click="vm.edit(interventionNature.id)">
+              <md-icon>edit</md-icon>
+            </md-button>
+            <md-button class="md-icon-button" ng-click="vm.deleteItems(interventionNature.id)">
+              <md-icon>delete</md-icon>
+            </md-button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </md-table-container>
+
+  <md-table-pagination md-limit="vm.dtConfig.limit" md-limit-options="[5, 10, 15, 25, 50]" md-page="vm.dtConfig.page" md-total="{{vm.interventionNatures.count}}" md-on-paginate="vm.getInterventionNatures" md-page-select></md-table-pagination>
+</md-card>

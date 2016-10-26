@@ -9,7 +9,7 @@ var acl = require('acl');
 acl = new acl(new acl.memoryBackend());
 
 /**
- * Invoke Interventions Permissions
+ * Invoke Products Permissions
  */
 exports.invokeRolesPolicies = function () {
   acl.allow([{
@@ -39,7 +39,36 @@ exports.invokeRolesPolicies = function () {
       resources: '/api/interventions/:interventionId',
       permissions: ['get']
     }]
-  }]);
+  },
+  {
+    roles: ['user','admin','guest'],
+    allows: [{
+      resources: '/api/lazy/interventions',
+      permissions: ['get']
+    }]
+  },
+  {
+    roles: ['admin'],
+    allows: [{
+      resources: '/api/ajax/interventions/delete/all',
+      permissions: ['post']
+    }]
+  },
+  {
+    roles: ['admin'],
+    allows: [{
+      resources: '/api/ajax/interventions/startWith/:startWith',
+      permissions: ['get']
+    }]
+  },
+  {
+    roles: ['admin'],
+    allows: [{
+      resources: '/api/ajax/prescriptions/startWith/:startWith',
+      permissions: ['get']
+    }]
+  }
+]);
 };
 
 /**
@@ -49,7 +78,7 @@ exports.isAllowed = function (req, res, next) {
 
   var roles = (req.user) ? req.user.roles : ['guest'];
 
-  // If an intervention is being processed and the current user created it then allow any manipulation
+  // If an product is being processed and the current user created it then allow any manipulation
   if (req.intervention && req.user && req.intervention.user && req.intervention.user.id === req.user.id) {
     return next();
   }

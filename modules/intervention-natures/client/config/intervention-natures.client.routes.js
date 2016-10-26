@@ -9,31 +9,10 @@
 
   function routeConfig($stateProvider) {
     $stateProvider
-      .state('interventionNatures', {
+      .state('backoffice.interventionNatures', {
         abstract: true,
         url: '/intervention-natures',
         template: '<ui-view/>'
-      })
-      .state('interventionNatures.list', {
-        url: '',
-        templateUrl: 'modules/intervention-natures/client/views/list-intervention-natures.client.view.html',
-        controller: 'InterventionNaturesListController',
-        controllerAs: 'vm',
-        data: {
-          pageTitle: 'InterventionNatures List'
-        }
-      })
-      .state('interventionNatures.view', {
-        url: '/:interventionNatureId',
-        templateUrl: 'modules/intervention-natures/client/views/view-intervention-nature.client.view.html',
-        controller: 'InterventionNaturesController',
-        controllerAs: 'vm',
-        resolve: {
-          interventionNatureResolve: getInterventionNature
-        },
-        data: {
-          pageTitle: 'InterventionNature {{ interventionNatureResolve.name }}'
-        }
       });
   }
 

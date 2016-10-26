@@ -15,11 +15,11 @@
       roles: ['*']
     });
 
-    // Add the dropdown list item
-    menuService.addSubMenuItem('topbar', 'interventions', {
-      title: 'List Interventions',
-      state: 'interventions.list',
-      roles: ['*']
-    });
+    // // Add the dropdown list item
+    // menuService.addSubMenuItem('topbar', 'products', {
+    //   title: 'List Products',
+    //   state: 'products.list',
+    //   roles: ['*']
+    // });
   }
 }());

@@ -15,11 +15,11 @@
       roles: ['*']
     });
 
-    // Add the dropdown list item
-    menuService.addSubMenuItem('topbar', 'interventionNatures', {
-      title: 'List Intervention Natures',
-      state: 'interventionNatures.list',
-      roles: ['*']
-    });
+    // // Add the dropdown list item
+    // menuService.addSubMenuItem('topbar', 'products', {
+    //   title: 'List Products',
+    //   state: 'products.list',
+    //   roles: ['*']
+    // });
   }
 }());
