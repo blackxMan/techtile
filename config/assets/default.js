@@ -7,18 +7,12 @@ module.exports = {
     lib: {
       css: [
         // bower:css
-        //'public/lib/bootstrap/dist/css/bootstrap.css',
-        //'public/lib/bootstrap/dist/css/bootstrap-theme.css',
-        //'//ajax.googleapis.com/ajax/libs/angular_material/0.8.3/angular-material.min.css',
         'public/lib/angular-material/angular-material.css',
         'public/lib/angular-material/angular-material-icons.css',
         'public/lib/angular-material-sidemenu/dest/angular-material-sidemenu.css',
         'https://fonts.googleapis.com/icon?family=Material+Icons',
         'public/lib/angular-material-data-table/dist/md-data-table.min.css', // material datatable dependencies
         'public/lib/md-color-picker/dist/mdColorPicker.min.css', // md-color-picker dependences
-        'public/lib/leaflet/dist/leaflet.css', // openstreetmap dependences
-        'public/lib/leaflet-draw/dist/leaflet.draw.css', // openstreetmap dependences
-        'public/lib/leaflet-fullscreen/dist/leaflet.fullscreen.css', // openstreetmap dependences
 
         // endbower
       ],
@@ -26,9 +20,6 @@ module.exports = {
         // bower:js
         'public/lib/lodash/dist/lodash.min.js', // lodash lib
         'public/lib/tinycolor/dist/tinycolor-min.js',// dependence for color
-        'public/lib/leaflet/dist/leaflet.js', // openstreetmap dependences
-        'public/lib/leaflet-draw/dist/leaflet.draw.js', // openstreetmap dependences
-        'public/lib/leaflet-fullscreen/dist/Leaflet.fullscreen.js', // openstreetmap dependences
 
         'public/lib/angular/angular.js',
         'public/lib/angular-animate/angular-animate.js',
@@ -47,8 +38,6 @@ module.exports = {
         'public/lib/angular-material-sidemenu/dest/angular-material-sidemenu.js',//angular material sidemenu directive
         'public/lib/angular-material-data-table/dist/md-data-table.min.js',//angular material datatable
         'public/lib/md-color-picker/dist/mdColorPicker.min.js',// angular material color
-        'public/lib/ui-leaflet/dist/ui-leaflet.min.js',//angular openstreetmap
-        'public/lib/ui-leaflet-layers/dist/ui-leaflet-layers.min.js',//angular openstreetmap
 
         // endbower
       ],
