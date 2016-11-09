@@ -74,7 +74,7 @@ module.exports = function(sequelize, DataTypes) {
       field: 'budget'
     },
     state:{
-      type: DataTypes.Enum('WAITING','ACTIVE','CLOSE','SUSPEND'),
+      type: DataTypes.ENUM('WAITING','ACTIVE','CLOSE','SUSPEND'),
       field: 'state'
     }
 

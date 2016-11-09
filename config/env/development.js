@@ -4,11 +4,11 @@ var defaultEnvConfig = require('./default');
 
 module.exports = {
   db: {
-    name: process.env.DB_NAME || "inteligferma",
+    name: process.env.DB_NAME || "techtile",
     host: process.env.DB_HOST || "localhost",
     port: process.env.DB_PORT || 5432,
-    username: process.env.DB_USERNAME || "inteligferma",
-    password: process.env.DB_PASSWORD || "inteligferma",
+    username: process.env.DB_USERNAME || "techtile",
+    password: process.env.DB_PASSWORD || "techtile",
     dialect: process.env.DB_DIALECT || "postgres", //mysql, postgres, sqlite3,...
     enableSequelizeLog: process.env.DB_LOG || true,
     ssl: process.env.DB_SSL || false,

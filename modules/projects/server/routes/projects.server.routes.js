@@ -3,30 +3,30 @@
 /**
  * Module dependencies
  */
-var activitiesPolicy = require('../policies/activities.server.policy'),
-  activities = require('../controllers/activities.server.controller');
+var projectsPolicy = require('../policies/projects.server.policy'),
+  projects = require('../controllers/projects.server.controller');
 
 module.exports = function (app) {
-  // Activities collection routes
-  app.route('/api/activities').all(activitiesPolicy.isAllowed)
-    .get(activities.list)
-    .post(activities.create);
+  // Projects collection routes
+  app.route('/api/projects').all(projectsPolicy.isAllowed)
+    .get(projects.list)
+    .post(projects.create);
 
-  // Single activity routes
-  app.route('/api/activities/:activityId').all(activitiesPolicy.isAllowed)
-    .get(activities.read)
-    .put(activities.update)
-    .delete(activities.delete);
+  // Single project routes
+  app.route('/api/projects/:projectId').all(projectsPolicy.isAllowed)
+    .get(projects.read)
+    .put(projects.update)
+    .delete(projects.delete);
 
-  app.route('/api/ajax/activities/delete/all').all(activitiesPolicy.isAllowed)
-    .post(activities.deleteAll);
+  app.route('/api/ajax/projects/delete/all').all(projectsPolicy.isAllowed)
+    .post(projects.deleteAll);
 
-  app.route('/api/ajax/activities/startWith/:startWith').all(activitiesPolicy.isAllowed)
-    .get(activities.searchTokenActivities);
+  app.route('/api/ajax/projects/startWith/:startWith').all(projectsPolicy.isAllowed)
+    .get(projects.searchTokenProjects);
 
-  app.route('/api/lazy/activities').all(activitiesPolicy.isAllowed)
-    .get(activities.lazy);
+  app.route('/api/lazy/projects').all(projectsPolicy.isAllowed)
+    .get(projects.lazy);
 
-  // Finish by binding the activity middleware
-  app.param('activityId', activities.activityByID);
+  // Finish by binding the project middleware
+  app.param('projectId', projects.projectByID);
 };

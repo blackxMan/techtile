@@ -15,49 +15,49 @@ exports.invokeRolesPolicies = function () {
   acl.allow([{
     roles: ['admin'],
     allows: [{
-      resources: '/api/activities',
+      resources: '/api/projets',
       permissions: '*'
     }, {
-      resources: '/api/activities/:activityId',
+      resources: '/api/projects/:projectId',
       permissions: '*'
     }]
   }, {
     roles: ['user'],
     allows: [{
-      resources: '/api/activities',
+      resources: '/api/projects',
       permissions: ['get']
     }, {
-      resources: '/api/activities/:activityId',
+      resources: '/api/projects/:projectId',
       permissions: ['get']
     }]
   }, {
     roles: ['guest'],
     allows: [{
-      resources: '/api/activities',
+      resources: '/api/projects',
       permissions: ['get']
     }, {
-      resources: '/api/activities/:activityId',
+      resources: '/api/projects/:projectId',
       permissions: ['get']
     }]
   },
   {
     roles: ['user','admin','guest'],
     allows: [{
-      resources: '/api/lazy/activities',
+      resources: '/api/lazy/projects',
       permissions: ['get']
     }]
   },
   {
     roles: ['admin'],
     allows: [{
-      resources: '/api/ajax/activities/delete/all',
+      resources: '/api/ajax/projects/delete/all',
       permissions: ['post']
     }]
   },
   {
     roles: ['admin'],
     allows: [{
-      resources: '/api/ajax/activities/startWith/:startWith',
+      resources: '/api/ajax/projects/startWith/:startWith',
       permissions: ['get']
     }]
   }
@@ -65,14 +65,14 @@ exports.invokeRolesPolicies = function () {
 };
 
 /**
- * Check If Activities Policy Allows
+ * Check If Projects Policy Allows
  */
 exports.isAllowed = function (req, res, next) {
 
   var roles = (req.user) ? req.user.roles : ['guest'];
 
-  // If an activity is being processed and the current user created it then allow any manipulation
-  if (req.activity && req.user && req.activity.user && req.activity.user.id === req.user.id) {
+  // If an project is being processed and the current user created it then allow any manipulation
+  if (req.project && req.user && req.project.user && req.project.user.id === req.user.id) {
     return next();
   }
 

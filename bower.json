@@ -18,7 +18,8 @@
     "angular-material-sidemenu": "^1.0.1",
     "lodash": "^4.16.4",
     "angular-material-data-table": "^0.10.9",
-    "md-color-picker": "^0.2.6"
+    "md-color-picker": "^0.2.6",
+    "angular-material-icons": "^0.7.1"
   },
   "overrides": {
     "bootstrap": {
