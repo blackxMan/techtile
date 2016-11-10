@@ -1,23 +1,26 @@
 {
   "development": {
-    "username": "inteligferm",
-    "password": "inteligferm",
-    "database": "inteligferm",
+    "username": "techtile",
+    "password": "techtile",
+    "database": "techtile",
     "host": "127.0.0.1",
+    "port": 5432,
     "dialect": "postgres"
   },
   "test": {
-    "username": "inteligferm",
-    "password": "inteligferm",
-    "database": "inteligferm",
+    "username": "techtile",
+    "password": "techtile",
+    "database": "techtile",
     "host": "127.0.0.1",
+    "port": 5432,
     "dialect": "postgres"
   },
   "production": {
-    "username": "inteligferm",
-    "password": "inteligferm",
-    "database": "inteligferm",
+    "username": "techtile",
+    "password": "techtile",
+    "database": "techtile",
     "host": "127.0.0.1",
+    "port": 5432,
     "dialect": "postgres"
   }
 }

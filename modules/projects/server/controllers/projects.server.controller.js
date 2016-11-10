@@ -109,13 +109,13 @@ exports.list = function(req, res) {
 /**
 * lazy load from client
 */
-exports.lazy= function(req,res){
-  var limit= req.query.limit;
-  var offset= (req.query.page-1)*limit;
+exports.lazy = function(req,res){
+  var limit = req.query.limit;
+  var offset = (req.query.page-1) * limit;
   var column = req.query.order;
-  var orderType='ASC';
+  var orderType = 'ASC';
 
-  if(column.indexOf('-') != -1){
+  if (column.indexOf('-') != -1) {
     orderType= 'DESC';
     column= column.replace('-','');
   }

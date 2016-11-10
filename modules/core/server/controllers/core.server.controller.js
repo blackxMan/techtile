@@ -13,7 +13,6 @@ exports.renderIndex = function (req, res) {
       displayName: validator.escape(req.user.displayName),
       provider: validator.escape(req.user.provider),
       username: validator.escape(req.user.username),
-      //created: req.user.created.toString(),
       roles: req.user.roles,
       profileImageURL: req.user.profileImageURL,
       email: validator.escape(req.user.email),

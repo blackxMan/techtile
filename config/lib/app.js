@@ -15,7 +15,7 @@ module.exports.init = function init(callback) {
 };
 
 module.exports.start = function start(callback) {
-  winston.info('Initializing MEAN.JS Stack with sequelize support...');
+  winston.info('Initializing SMART.JS Stack...');
 
   var _this = this;
 
@@ -32,9 +32,9 @@ module.exports.start = function start(callback) {
       console.log(chalk.green('Environment:     ' + process.env.NODE_ENV));
       console.log(chalk.green('Server:          ' + server));
       console.log(chalk.green('Database:        ' + config.db.name));
-      console.log(chalk.green('App version:     ' + config.meanjs.version));
-      if (config.meanjs['meanjs-version'])
-        console.log(chalk.green('MEAN.JS version: ' + config.meanjs['meanjs-version']));
+      console.log(chalk.green('App version:     ' + config.smartjs.version));
+      if (config.smartjs['smartjs-version'])
+        console.log(chalk.green('SMART.JS version: ' + config.smartjs['smartjs-version']));
       console.log('---------------------------');
 
       if (callback) callback(app, db, config);

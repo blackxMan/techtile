@@ -36,6 +36,18 @@ module.exports = function(sequelize, DataTypes) {
       defaultValue: DataTypes.NOW,
       field: 'updated_at'
     },
+    clientPlannedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+      field: 'client_planned_at'
+    },
+    clientDeliveredAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+      field: 'client_delivered_at'
+    },
     plannedAt: {
       type: DataTypes.DATE,
       allowNull: false,
@@ -77,7 +89,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.ENUM('WAITING','ACTIVE','CLOSE','SUSPEND'),
       field: 'state'
     }
-
   }, {
     underscored: true,
     freezeTableName: true,

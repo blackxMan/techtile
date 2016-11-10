@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var fs = require('fs');
 var path = require('path');
@@ -29,4 +29,4 @@ orm.connect(config.db.name, config.db.username, config.db.password, {
   }
 });
 
-module.exports= orm;
+module.exports = orm;

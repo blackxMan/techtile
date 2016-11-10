@@ -1,7 +1,6 @@
-"use strict";
+'use strict';
 
-var
-  path = require('path'),
+var path = require('path'),
   chalk = require('chalk'),
   config = require(path.resolve('./config/config')),
   Sequelize = require('sequelize'),
@@ -15,9 +14,9 @@ db.discover = [];
 // Expose the connection function
 db.connect = function(database, username, password, options) {
 
-  if (typeof db.logger === 'function'){
-    winston.info("Connecting to: " + database + " as: " + username);
-    console.log(chalk.red("Connecting to: " + database + " as: " + username));
+  if (typeof db.logger === 'function') {
+    winston.info('Connecting to: ' + database + ' as: ' + username);
+    console.log(chalk.red('Connecting to: ' + database + ' as: ' + username));
   }
 
 
@@ -26,7 +25,7 @@ db.connect = function(database, username, password, options) {
 
 
   db.discover.forEach(function(location) {
-    var model = sequelize["import"](location);
+    var model = sequelize.import(location);
     if (model)
       db.models[model.name] = model;
   });
@@ -35,7 +34,7 @@ db.connect = function(database, username, password, options) {
   Object.keys(db.models).forEach(function(modelName) {
     if (db.models[modelName].options.hasOwnProperty('associate')) {
       db.models[modelName].options.associate(db.models);
-      winston.info("Associating Model: " + modelName);
+      winston.info('Associating Model: ' + modelName);
     }
   });
 
@@ -43,16 +42,16 @@ db.connect = function(database, username, password, options) {
     // Synchronizing any model changes with database.
     sequelize.sync()
       .then(function() {
-        winston.info("Database synchronized");
+        winston.info('Database synchronized');
       }).catch(function(err) {
-        console.log('err ---------------------> '+JSON.stringify(err));
-        winston.error("An error occured: %j", err);
+        console.log('err ---------------------> ' + JSON.stringify(err));
+        winston.error('An error occured: %j', err);
       });
   }
 
   db.sequelize = sequelize;
 
-  winston.info("Finished Connecting to Database");
+  winston.info('Finished Connecting to Database');
 
   return true;
 };

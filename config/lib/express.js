@@ -228,63 +228,62 @@ module.exports.configureSocketIO = function (app, db) {
 /**
  * Configure token authentication
  */
-module.exports.configureTokenAuth= function(app,db){
+module.exports.configureTokenAuth = function (app, db) {
   app.use(cors());
-	app.use(function (req, res, next) {
+  app.use(function (req, res, next) {
 
 		// Website you wish to allow to connect
-		res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', '*');
 
 		// Request methods you wish to allow
-		res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
 
 		// Request headers you wish to allow
-		res.setHeader('Access-Control-Allow-Headers', 'origin, x-requested-with, content-type, accept, x-xsrf-token');
+    res.setHeader('Access-Control-Allow-Headers', 'origin, x-requested-with, content-type, accept, x-xsrf-token');
 
 		// Set to true if you need the website to include cookies in the requests sent
 		// to the API (e.g. in case you use sessions)
-		res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader('Access-Control-Allow-Credentials', true);
 
 		// Pass to next layer of middleware
-		next();
-	});
+    next();
+  });
 
   // Retrive security token
-	app.use(function(req,res,next){
-		var token= TokenAuthentication.getToken(req);
-    
-		if(token){
-			req.token= token;
-      db.models.user.findOne({where: {token: req.token}})
-      .then(function(user){
+  app.use(function (req, res, next) {
+    var token = TokenAuthentication.getToken(req);
+
+    if (token) {
+      req.token = token;
+      db.models.user.findOne({ where: { token: req.token } })
+      .then(function(user) {
         req.user = user;
         next();
       })
-      .catch(function(err){
+      .catch(function(err) {
         req.user = undefined;
         next();
       });
-		}else{
+    } else {
       req.user = undefined;
       next();
     }
+  });
 
-	});
-
-  //Intercept and searching for token
-	app.use(
-    tamper(function(req,res){
-  		if(req.url == config.jwtTokenSigninPath){
-  			return function(body) {
-  				if(body.indexOf(config.jwtTokenName)>-1){
-  					var obj= JSON.parse(body);
-  					res.setHeader('X-Access-Token', obj.token);
-  					res.setHeader('X-Authorization-Roles', obj.roles);
-  				}
-  		    return body;
-  		 }
-  		}
-  	})
+  // Intercept and searching for token
+  app.use(
+    tamper(function(req, res) {
+      if (req.url === config.jwtTokenSigninPath) {
+        return function(body) {
+          if (body.indexOf(config.jwtTokenName) > -1) {
+            var obj = JSON.parse(body);
+            res.setHeader('X-Access-Token', obj.token);
+            res.setHeader('X-Authorization-Roles', obj.roles);
+          }
+          return body;
+        };
+      }
+    })
   );
 };
 
@@ -310,9 +309,8 @@ module.exports.init = function (db) {
   // Initialize modules static client routes, before session!
   this.initModulesClientRoutes(app);
 
-  // Initialize Express session
-  //this.initSession(app, db);
-  this.configureTokenAuth(app,db);
+  // Initialize Token authentication
+  this.configureTokenAuth(app, db);
 
   // Initialize Modules configuration
   this.initModulesConfiguration(app);

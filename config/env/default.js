@@ -2,7 +2,7 @@
 
 module.exports = {
   app: {
-    title: 'MEAN.JS',
+    title: 'SEAN.JS',
     description: 'Full-Stack JavaScript with Sequelize, Express, AngularJS, and Node.js',
     keywords: 'mongodb, express, angularjs, node.js, Sequelize, passport',
     googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'GOOGLE_ANALYTICS_TRACKING_ID'
@@ -23,22 +23,18 @@ module.exports = {
     secure: false
   },
   // sessionSecret should be changed for security measures and concerns
-  sessionSecret: process.env.SESSION_SECRET || 'MEAN',
+  sessionSecret: process.env.SESSION_SECRET || 'SEAN',
   // sessionKey is the cookie session name
-  sessionKey: 'sessionId',
+  sessionKey: 'SMARTJSId',
   sessionCollection: 'sessions',
 
   jwtTokenSecret: 'b3fc1aedb94bc31469fac62e9e2938b94c978d32',
-	jwtHashMethod: 'HS512',// supported algo HS256, HS384, HS512 and RS256
-	/**
-		***** Expire Time help ******
-		Format like this: 1 years, 3 days, 30 minutes
-		Supported instruction: years, quarters, months, weeks, days, hours, minutes, seconds, milliseconds
-	*/
-	jwtExpireTime: '8 hours, 30 minutes',
-	jwtTokenName: 'token',
-	jwtTokenSigninPath: '/api/security/auth/signin',
-	maxTimePasswordReset: '1 hours',
+  // supported algo HS256, HS384, HS512 and RS256
+  jwtHashMethod: 'HS512',
+  jwtExpireTime: '8 hours, 30 minutes',
+  jwtTokenName: 'token',
+  jwtTokenSigninPath: '/api/security/auth/signin',
+  maxTimePasswordReset: '1 hours',
   // Lusca config
   csrf: {
     csrf: false,

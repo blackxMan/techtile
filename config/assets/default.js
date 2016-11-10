@@ -19,7 +19,7 @@ module.exports = {
       js: [
         // bower:js
         'public/lib/lodash/dist/lodash.min.js', // lodash lib
-        'public/lib/tinycolor/dist/tinycolor-min.js',// dependence for color
+        'public/lib/tinycolor/dist/tinycolor-min.js', // dependence for color
 
         'public/lib/angular/angular.js',
         'public/lib/angular-animate/angular-animate.js',
@@ -31,13 +31,13 @@ module.exports = {
         'public/lib/angular-ui-utils/ui-utils.js',
         'public/lib/owasp-password-strength-test/owasp-password-strength-test.js',
         'public/lib/angular-aria/angular-aria.min.js',
-        'public/lib/angular-simple-logger/dist/angular-simple-logger.js',// dependencies for ui-leaflet
+        'public/lib/angular-simple-logger/dist/angular-simple-logger.js', // dependencies for ui-leaflet
 
         'public/lib/angular-material/angular-material.min.js',
         'public/lib/angular-material-icons/angular-material-icons.min.js',
-        'public/lib/angular-material-sidemenu/dest/angular-material-sidemenu.js',//angular material sidemenu directive
-        'public/lib/angular-material-data-table/dist/md-data-table.min.js',//angular material datatable
-        'public/lib/md-color-picker/dist/mdColorPicker.min.js',// angular material color
+        'public/lib/angular-material-sidemenu/dest/angular-material-sidemenu.js', // angular material sidemenu directive
+        'public/lib/angular-material-data-table/dist/md-data-table.min.js', // angular material datatable
+        'public/lib/md-color-picker/dist/mdColorPicker.min.js', // angular material color
 
         // endbower
       ],

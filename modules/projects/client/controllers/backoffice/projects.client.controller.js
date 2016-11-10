@@ -5,10 +5,15 @@
     .module('projects.backoffice')
     .controller('ProjectsController', ProjectsController);
 
-  ProjectsController.$inject = ['$scope', '$state', '$window', 'projectResolve', 'Authentication','$http','$q','ProjectsService','ClientsService'];
+  ProjectsController.$inject = ['$scope', '$state', '$window', 'projectResolve', 'Authentication','$http','$q','ProjectsService'];
 
-  function ProjectsController($scope, $state, $window, project, Authentication, $http, $q, ProjectsService, ClientsService) {
+  function ProjectsController($scope, $state, $window, project, Authentication, $http, $q, ProjectsService) {
     var vm = this;
+
+    project.plannedAt = (project.plannedAt)?new Date(project.plannedAt):null;
+    project.clientPlannedAt = (project.clientPlannedAt)?new Date(project.clientPlannedAt):null;
+    project.deliveredAt = (project.deliveredAt)?new Date(project.deliveredAt):null;
+    project.clientDeliveredAt = (project.clientDeliveredAt)?new Date(project.clientDeliveredAt):null;
 
     vm.project = project;
     vm.authentication = Authentication;

@@ -1,10 +1,10 @@
 ﻿
-<md-card style="padding:0px" ng-init="vm.getActivities()">
+<!--md-card style="padding:0px" ng-init="vm.getProjects()" flex>
   <md-toolbar class="md-table-toolbar md-default" ng-hide="vm.selectedItems.length">
     <div class="md-toolbar-tools">
-      <span>Activities</span>
+      <span>Projects</span>
       <div flex></div>
-      <md-button class="md-icon-button" ng-click="vm.getActivities()">
+      <md-button class="md-icon-button" ng-click="vm.getProjects()">
         <md-icon>refresh</md-icon>
       </md-button>
     </div>
@@ -18,38 +18,36 @@
       </md-button>
     </div>
   </md-toolbar>
-
-  <!-- exact table from live demo -->
   <md-table-container>
     <table md-table md-row-select multiple ng-model="vm.selectedItems" md-progress="vm.promise">
       <thead md-head md-order="vm.dtConfig.order" md-on-reorder="vm.getActivities">
         <tr md-row>
-          <th md-column md-order-by="name"><span>Nom d'activite</span></th>
-          <th md-column md-numeric md-order-by="year"><span>L'année d'activité</span></th>
-          <th md-column md-numeric>Budget estimé</th>
-          <th md-column md-numeric>Budget réel</th>
-          <th md-column>Date debut</th>
-          <th md-column>Date fin</th>
-          <th md-column>Produit</th>
-          <th md-column>Manager</th>
+          <th md-column md-order-by="name"><span>Project name</span></th>
+          <th md-column md-numeric><span>Command</span></th>
+          <th md-column>Customer <span style="font-size:10px">(Date)</span></th>
+          <th md-column>Manufactering <span style="font-size:10px">(Date)</span></th>
+          <th md-column>Customer</th>
+          <th md-column>Customer budget</th>
+          <th md-column>Estimated budget</th>
+          <th md-column>Real budget</th>
           <th md-column style="text-align: center;">Actions</th>
         </tr>
       </thead>
       <tbody md-body>
-        <tr md-row md-select="activity" md-select-id="name" md-auto-select ng-repeat="activity in vm.activities.rows">
-          <td md-cell>{{activity.name}}</td>
-          <td md-cell>{{activity.year}}</td>
-          <td md-cell>{{activity.estimatedBudget}}</td>
-          <td md-cell>{{activity.realBudget}}</td>
-          <td md-cell>{{activity.startAt | date:'mediumDate'}}</td>
-          <td md-cell>{{activity.endAt | date:'mediumDate'}}</td>
-          <td md-cell>{{activity.product.name}}</td>
-          <td md-cell>{{activity.manager.displayName}}</td>
+        <tr md-row md-select="project" md-select-id="name" md-auto-select ng-repeat="project in vm.projects.rows">
+          <td md-cell>{{project.name}}</td>
+          <td md-cell>{{project.commandReference}}</td>
+          <td md-cell>{{project.clientPlannedAt | date: 'mediumDate' }} - {{project.clientDeliveredAt | date: 'mediumDate' }}</td>
+          <td md-cell>{{project.plannedAt | date: 'mediumDate' }} - {{project.deliveredAt | date: 'mediumDate' }}</td>
+          <td md-cell>{{project.customer}}</td>
+          <td md-cell>{{project.clientBudget}}</td>
+          <td md-cell>{{project.estimatedBudget}}</td>
+          <td md-cell>{{project.budget}}</td>
           <td md-cell>
-            <md-button class="md-icon-button" ng-click="vm.edit(activity.id)">
+            <md-button class="md-icon-button" ng-click="vm.edit(project.id)">
               <md-icon>edit</md-icon>
             </md-button>
-            <md-button class="md-icon-button" ng-click="vm.deleteItems(activity.id)">
+            <md-button class="md-icon-button" ng-click="vm.deleteItems(project.id)">
               <md-icon>delete</md-icon>
             </md-button>
           </td>
@@ -58,5 +56,67 @@
     </table>
   </md-table-container>
 
-  <md-table-pagination md-limit="vm.dtConfig.limit" md-limit-options="[5, 10, 15, 25, 50]" md-page="vm.dtConfig.page" md-total="{{vm.activities.count}}" md-on-paginate="vm.getActivities" md-page-select></md-table-pagination>
-</md-card>
+  <md-table-pagination md-limit="vm.dtConfig.limit" md-limit-options="[5, 10, 15, 25, 50]" md-page="vm.dtConfig.page" md-total="{{vm.projects.count}}" md-on-paginate="vm.getProjects" md-page-select></md-table-pagination>
+</md-card-->
+
+<div style="padding:0px" ng-init="vm.getProjects()" layout="column" flex>
+  <md-toolbar class="md-table-toolbar md-default" ng-hide="vm.selectedItems.length">
+    <div class="md-toolbar-tools">
+      <span>Projects list</span>
+      <div flex></div>
+      <md-button class="md-icon-button" ng-click="vm.getProjects()">
+        <md-icon>refresh</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-toolbar class="md-table-toolbar alternate" ng-show="vm.selectedItems.length">
+    <div class="md-toolbar-tools">
+      <span>{{vm.selectedItems.length}} {{vm.selectedItems.length > 1 ? 'items' : 'item'}} selected</span>
+      <div flex></div>
+      <md-button class="md-icon-button" ng-click="vm.deleteItems()">
+        <md-icon style="color:#fff;">delete</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-table-container flex>
+    <table md-table md-row-select multiple ng-model="vm.selectedItems" md-progress="vm.promise">
+      <thead md-head md-order="vm.dtConfig.order" md-on-reorder="vm.getActivities">
+        <tr md-row>
+          <th md-column md-order-by="name" hide-md><span>Project name</span></th>
+          <th md-column md-numeric><span>Command</span></th>
+          <th md-column hide-md>Customer <span style="font-size:10px">(Date)</span></th>
+          <th md-column>Manufactering <span style="font-size:10px">(Date)</span></th>
+          <th md-column>Customer</th>
+          <th md-column>Customer budget</th>
+          <th md-column>Estimated budget</th>
+          <th md-column>Real budget</th>
+          <th md-column style="text-align: center;">Actions</th>
+        </tr>
+      </thead>
+      <tbody md-body>
+        <tr md-row md-select="project" md-select-id="name" md-auto-select ng-repeat="project in vm.projects.rows">
+          <td md-cell hide-md>{{project.name}}</td>
+          <td md-cell>{{project.commandReference}}</td>
+          <td md-cell hide-md>{{project.clientPlannedAt | date: 'mediumDate' }} - {{project.clientDeliveredAt | date: 'mediumDate' }}</td>
+          <td md-cell>{{project.plannedAt | date: 'mediumDate' }} - {{project.deliveredAt | date: 'mediumDate' }}</td>
+          <td md-cell>{{project.customer}}</td>
+          <td md-cell>{{project.clientBudget}}</td>
+          <td md-cell>{{project.estimatedBudget}}</td>
+          <td md-cell>{{project.budget}}</td>
+          <td md-cell>
+            <md-button class="md-icon-button md-mini" ng-click="vm.edit(project.id)">
+              <md-icon>edit</md-icon>
+            </md-button>
+            <md-button class="md-icon-button md-mini" ng-click="vm.deleteItems(project.id)">
+              <md-icon>delete</md-icon>
+            </md-button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </md-table-container>
+
+  <div style="bottom:0px;position:fixed;width:100%" flex>
+    <md-table-pagination md-limit="vm.dtConfig.limit" md-limit-options="[5, 10, 15, 25, 50]" md-page="vm.dtConfig.page" md-total="{{vm.projects.count}}" md-on-paginate="vm.getProjects" md-page-select></md-table-pagination>
+  </div>
+</div>

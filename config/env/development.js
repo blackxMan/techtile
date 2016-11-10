@@ -1,24 +1,25 @@
 'use strict';
 
 var defaultEnvConfig = require('./default');
+var sequelizeConfig = require('../sequelize.json');
 
 module.exports = {
   db: {
-    name: process.env.DB_NAME || "techtile",
-    host: process.env.DB_HOST || "localhost",
-    port: process.env.DB_PORT || 5432,
-    username: process.env.DB_USERNAME || "techtile",
-    password: process.env.DB_PASSWORD || "techtile",
-    dialect: process.env.DB_DIALECT || "postgres", //mysql, postgres, sqlite3,...
+    name: process.env.DB_NAME || sequelizeConfig.development.database,
+    host: process.env.DB_HOST || sequelizeConfig.development.host,
+    port: process.env.DB_PORT || sequelizeConfig.development.port,
+    username: process.env.DB_USERNAME || sequelizeConfig.development.username,
+    password: process.env.DB_PASSWORD || sequelizeConfig.development.password,
+    dialect: process.env.DB_DIALECT || sequelizeConfig.development.dialect, // mysql, postgres, sqlite3,...
     enableSequelizeLog: process.env.DB_LOG || true,
     ssl: process.env.DB_SSL || false,
-    sync: process.env.DB_SYNC || true //Synchronizing any model changes with database
+    sync: process.env.DB_SYNC || true // Synchronizing any model changes with database
   },
   redis: {
-    host: process.env.REDIS_HOST || "localhost",
+    host: process.env.REDIS_HOST || 'localhost',
     port: process.env.REDIS_PORT || 6379,
     database: process.env.REDIS_DATABASE || 0,
-    password: process.env.REDIS_PASSWORD || "",
+    password: process.env.REDIS_PASSWORD || ''
   },
   log: {
     // logging with Morgan - https://github.com/expressjs/morgan
@@ -35,8 +36,8 @@ module.exports = {
   app: {
     title: defaultEnvConfig.app.title + ' - Development Environment'
   },
-  oauth:{
-    enabled:false,
+  oauth: {
+    enabled: false
   },
   facebook: {
     clientID: process.env.FACEBOOK_ID || 'APP_ID',
@@ -79,5 +80,5 @@ module.exports = {
       }
     }
   },
-  livereload: true,
+  livereload: true
 };

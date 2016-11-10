@@ -5,10 +5,12 @@
     .module('projects.backoffice')
     .controller('ProjectsListController', ProjectsListController);
 
-  ProjectsListController.$inject = ['ProjectsService','$http','$state'];
+  ProjectsListController.$inject = ['ProjectsService','$http','$state','$scope'];
 
-  function ProjectsListController(ProjectsService,$http,$state) {
+  function ProjectsListController(ProjectsService,$http,$state,$scope) {
     var vm = this;
+
+    $scope.pageTitle = "Projects";
 
     vm.selectedItems = [];
 

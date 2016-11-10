@@ -1,8 +1,8 @@
 {
-  "name": "meanjs",
+  "name": "smartjs",
   "description": "Full-Stack JavaScript with Sequelize, Express, AngularJS, and Node.js.",
   "version": "0.5.0-beta",
-  "meanjs-version": "0.5.0-beta",
+  "smartjs-version": "0.5.0-beta",
   "private": false,
   "author": "https://github.com/meanjs/mean/graphs/contributors",
   "license": "MIT",
