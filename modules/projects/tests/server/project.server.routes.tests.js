@@ -5,19 +5,19 @@ var should = require('should'),
   path = require('path'),
   sequelize = require(path.resolve('./config/lib/sequelize-connect')),
   db = require(path.resolve('./config/lib/sequelize')).models,
-  Activity = db.activity,
+  Project = db.project,
   User = db.user,
   express = require(path.resolve('./config/lib/express'));
 
 /**
  * Globals
  */
-var app, agent, credentials, user, activity;
+var app, agent, credentials, user, project;
 
 /**
- * Activity routes tests
+ * Project routes tests
  */
-describe('Activity CRUD tests', function() {
+describe('Project CRUD tests', function() {
   before(function(done) {
     // Get application
     app = express.init(sequelize);
@@ -47,12 +47,12 @@ describe('Activity CRUD tests', function() {
     user.provider = 'local';
     user.roles = ['admin', 'user'];
 
-    // Save a user to the test db and create new activity
+    // Save a user to the test db and create new project
     user.save().then(function(user) {
-      activity = Activity.build();
-      activity = {
-        name: 'Activity name',
-        description: 'Activity description',
+      project = Project.build();
+      project = {
+        name: 'Project name',
+        description: 'Project description',
         userId: user.id
       };
       done();
@@ -60,7 +60,7 @@ describe('Activity CRUD tests', function() {
 
   });
 
-  it('should be able to save an activity if logged in', function(done) {
+  it('should be able to save an project if logged in', function(done) {
     agent.post('/api/auth/signin')
       .send(credentials)
       .expect(200)
@@ -74,35 +74,35 @@ describe('Activity CRUD tests', function() {
         // Get the userId
         var userId = user.id;
 
-        // Save a new activity
-        agent.post('/api/activities')
-          .send(activity)
+        // Save a new project
+        agent.post('/api/projects')
+          .send(project)
           .expect(200)
-          .end(function(activitySaveErr, activitySaveRes) {
+          .end(function(projectSaveErr, projectSaveRes) {
 
-            // Handle activity save error
-            if (activitySaveErr) {
-              return done(activitySaveErr);
+            // Handle project save error
+            if (projectSaveErr) {
+              return done(projectSaveErr);
             }
 
-            // Get a list of activities
-            agent.get('/api/activities')
-              .end(function(activitiesGetErr, activitiesGetRes) {
+            // Get a list of projects
+            agent.get('/api/projects')
+              .end(function(projectsGetErr, projectsGetRes) {
 
-                // Handle activity save error
-                if (activitiesGetErr) {
-                  return done(activitiesGetErr);
+                // Handle project save error
+                if (projectsGetErr) {
+                  return done(projectsGetErr);
                 }
 
-                // Get activities list
-                var activities = activitiesGetRes.body;
+                // Get projects list
+                var projects = projectsGetRes.body;
 
                 // Set assertions
-                console.log('activities[0]', activities[0]);
+                console.log('projects[0]', projects[0]);
                 console.log('userId', userId);
 
-                //(activities[0].userId).should.equal(userId);
-                (activities[0].name).should.match('Activity name');
+                //(projects[0].userId).should.equal(userId);
+                (projects[0].name).should.match('Project name');
 
                 // Call the assertion callback
                 done();
@@ -111,7 +111,7 @@ describe('Activity CRUD tests', function() {
       });
   });
 
-  it('should not be able to save an activity if not logged in', function(done) {
+  it('should not be able to save an project if not logged in', function(done) {
     agent.get('/api/auth/signout')
       .expect(302) //because of redirect
       .end(function(signoutErr, signoutRes) {
@@ -121,19 +121,19 @@ describe('Activity CRUD tests', function() {
           return done(signoutErr);
         }
 
-        agent.post('/api/activities')
-          .send(activity)
+        agent.post('/api/projects')
+          .send(project)
           .expect(403)
-          .end(function(activitySaveErr, activitySaveRes) {
+          .end(function(projectSaveErr, projectSaveRes) {
             // Call the assertion callback
-            done(activitySaveErr);
+            done(projectSaveErr);
           });
       });
   });
 
-  it('should not be able to save an activity if no name is provided', function(done) {
+  it('should not be able to save an project if no name is provided', function(done) {
     // Invalidate name field
-    activity.name = '';
+    project.name = '';
 
     agent.post('/api/auth/signin')
       .send(credentials)
@@ -148,21 +148,21 @@ describe('Activity CRUD tests', function() {
         // Get the userId
         var userId = user.id;
 
-        // Save a new activity
-        agent.post('/api/activities')
-          .send(activity)
+        // Save a new project
+        agent.post('/api/projects')
+          .send(project)
           .expect(400)
-          .end(function(activitySaveErr, activitySaveRes) {
+          .end(function(projectSaveErr, projectSaveRes) {
 
             // Set message assertion
-            (activitySaveRes.body.message).should.match('Activity name must be between 1 and 250 characters in length');
-            // Handle activity save error
-            done(activitySaveErr);
+            (projectSaveRes.body.message).should.match('Project name must be between 1 and 250 characters in length');
+            // Handle project save error
+            done(projectSaveErr);
           });
       });
   });
 
-  it('should be able to update an activity if signed in', function(done) {
+  it('should be able to update an project if signed in', function(done) {
     agent.post('/api/auth/signin')
       .send(credentials)
       .expect(200)
@@ -176,32 +176,32 @@ describe('Activity CRUD tests', function() {
         // Get the userId
         var userId = user.id;
 
-        // Save a new activity
-        agent.post('/api/activitys')
-          .send(activity)
+        // Save a new project
+        agent.post('/api/projects')
+          .send(project)
           .expect(200)
-          .end(function(activitySaveErr, activitySaveRes) {
-            // Handle activity save error
-            if (activitySaveErr) {
-              return done(activitySaveErr);
+          .end(function(projectSaveErr, projectSaveRes) {
+            // Handle project save error
+            if (projectSaveErr) {
+              return done(projectSaveErr);
             }
 
-            // Update activity name
-            activity.name = 'WHY YOU GOTTA BE SO SEAN?';
+            // Update project name
+            project.name = 'WHY YOU GOTTA BE SO SEAN?';
 
-            // Update an existing activity
-            agent.put('/api/activities/' + activitySaveRes.body.id)
-              .send(activity)
+            // Update an existing project
+            agent.put('/api/projects/' + projectSaveRes.body.id)
+              .send(project)
               .expect(200)
-              .end(function(activityUpdateErr, activityUpdateRes) {
-                // Handle activity update error
-                if (activityUpdateErr) {
-                  return done(activityUpdateErr);
+              .end(function(projectUpdateErr, projectUpdateRes) {
+                // Handle project update error
+                if (projectUpdateErr) {
+                  return done(projectUpdateErr);
                 }
 
                 // Set assertions
-                (activityUpdateRes.body.id).should.equal(activitySaveRes.body.id);
-                (activityUpdateRes.body.name).should.match('WHY YOU GOTTA BE SO SEAN?');
+                (projectUpdateRes.body.id).should.equal(projectSaveRes.body.id);
+                (projectUpdateRes.body.name).should.match('WHY YOU GOTTA BE SO SEAN?');
 
                 // Call the assertion callback
                 done();
@@ -210,15 +210,15 @@ describe('Activity CRUD tests', function() {
       });
   });
 
-  it('should be able to get a list of activities if not signed in', function(done) {
-    activity.name = 'Activity name';
-    // Create new activity model instance
-    var activityObj = Activity.build(activity);
+  it('should be able to get a list of projects if not signed in', function(done) {
+    project.name = 'Project name';
+    // Create new project model instance
+    var projectObj = Project.build(project);
 
-    // Save the activity
-    activityObj.save().then(function() {
-      // Request activities
-      request(app).get('/api/activities')
+    // Save the project
+    projectObj.save().then(function() {
+      // Request projects
+      request(app).get('/api/projects')
         .end(function(req, res) {
 
           // Set assertion
@@ -231,16 +231,16 @@ describe('Activity CRUD tests', function() {
     }).catch(function(err) {});
   });
 
-  it('should be able to get a single activity if not signed in', function(done) {
-    // Create new activity model instance
-    var activityObj = Activity.build(activity);
+  it('should be able to get a single project if not signed in', function(done) {
+    // Create new project model instance
+    var projectObj = Project.build(project);
 
-    // Save the activity
-    activityObj.save().then(function() {
-      request(app).get('/api/activities/' + activityObj.id)
+    // Save the project
+    projectObj.save().then(function() {
+      request(app).get('/api/projects/' + projectObj.id)
         .end(function(req, res) {
           // Set assertion
-          res.body.should.be.instanceof(Object).and.have.property('name', activity.name);
+          res.body.should.be.instanceof(Object).and.have.property('name', project.name);
 
           // Call the assertion callback
           done();
@@ -248,31 +248,31 @@ describe('Activity CRUD tests', function() {
     }).catch(function(err) {});
   });
 
-  it('should return proper error for single activity with an invalid Id, if not signed in', function(done) {
+  it('should return proper error for single project with an invalid Id, if not signed in', function(done) {
     // test is not a valid mongoose Id
-    request(app).get('/api/activities/test')
+    request(app).get('/api/projects/test')
       .end(function(req, res) {
         // Set assertion
-        res.body.should.be.instanceof(Object).and.have.property('message', 'Activity is invalid');
+        res.body.should.be.instanceof(Object).and.have.property('message', 'Project is invalid');
 
         // Call the assertion callback
         done();
       });
   });
 
-  it('should return proper error for single activity which doesnt exist, if not signed in', function(done) {
-    // This is a valid mongoose Id but a non-existent activity
-    request(app).get('/api/activities/123567890')
+  it('should return proper error for single project which doesnt exist, if not signed in', function(done) {
+    // This is a valid mongoose Id but a non-existent project
+    request(app).get('/api/projects/123567890')
       .end(function(req, res) {
         // Set assertion
-        res.body.should.be.instanceof(Object).and.have.property('message', 'No activity with that identifier has been found');
+        res.body.should.be.instanceof(Object).and.have.property('message', 'No project with that identifier has been found');
 
         // Call the assertion callback
         done();
       });
   });
 
-  it('should be able to delete an activity if signed in', function(done) {
+  it('should be able to delete an project if signed in', function(done) {
     agent.post('/api/auth/signin')
       .send(credentials)
       .expect(200)
@@ -286,31 +286,31 @@ describe('Activity CRUD tests', function() {
         // Get the userId
         var userId = user.id;
 
-        // Save a new activity
-        agent.post('/api/activities')
-          .send(activity)
+        // Save a new project
+        agent.post('/api/projects')
+          .send(project)
           .expect(200)
-          .end(function(activitySaveErr, activitySaveRes) {
+          .end(function(projectSaveErr, projectSaveRes) {
 
 
-            // Handle activity save error
-            if (activitySaveErr) {
-              return done(activitySaveErr);
+            // Handle project save error
+            if (projectSaveErr) {
+              return done(projectSaveErr);
             }
 
-            // Delete an existing activity
-            agent.delete('/api/activities/' + activitySaveRes.body.id)
-              .send(activity)
+            // Delete an existing project
+            agent.delete('/api/projects/' + projectSaveRes.body.id)
+              .send(project)
               .expect(200)
-              .end(function(activityDeleteErr, activityDeleteRes) {
+              .end(function(projectDeleteErr, projectDeleteRes) {
 
-                // Handle activity error error
-                if (activityDeleteErr) {
-                  return done(activityDeleteErr);
+                // Handle project error error
+                if (projectDeleteErr) {
+                  return done(projectDeleteErr);
                 }
 
                 // Set assertions
-                (activityDeleteRes.body.id).should.equal(activitySaveRes.body.id);
+                (projectDeleteRes.body.id).should.equal(projectSaveRes.body.id);
 
                 // Call the assertion callback
                 done();
@@ -319,25 +319,25 @@ describe('Activity CRUD tests', function() {
       });
   });
 
-  it('should not be able to delete an activity if not signed in', function(done) {
-    // Set activity user
-    activity.userId = user.id;
+  it('should not be able to delete an project if not signed in', function(done) {
+    // Set project user
+    project.userId = user.id;
 
-    // Create new activity model instance
-    var activityObj = Activity.build(activity);
+    // Create new project model instance
+    var projectObj = Project.build(project);
 
-    // Save the activity
-    activityObj.save().then(function() {
-      // Try deleting activity
-      request(app).delete('/api/activities/' + activityObj.id)
+    // Save the project
+    projectObj.save().then(function() {
+      // Try deleting project
+      request(app).delete('/api/projects/' + projectObj.id)
         .expect(403)
-        .end(function(activityDeleteErr, activityDeleteRes) {
+        .end(function(projectDeleteErr, projectDeleteRes) {
 
           // Set message assertion
-          (activityDeleteRes.body.message).should.match('User is not authorized');
+          (projectDeleteRes.body.message).should.match('User is not authorized');
 
-          // Handle activity error error
-          done(activityDeleteErr);
+          // Handle project error error
+          done(projectDeleteErr);
         });
 
     }).catch(function(err) {});

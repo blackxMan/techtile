@@ -1,10 +1,10 @@
 (function () {
   'use strict';
 
-  describe('Activities Route Tests', function () {
+  describe('Projects Route Tests', function () {
     // Initialize global variables
     var $scope,
-      ActivitiesService;
+      ProjectsService;
 
     // We can start by loading the main application module
     beforeEach(module(ApplicationConfiguration.applicationModuleName));
@@ -12,21 +12,21 @@
     // The injector ignores leading and trailing underscores here (i.e. _$httpBackend_).
     // This allows us to inject a service but then attach it to a variable
     // with the same name as the service.
-    beforeEach(inject(function ($rootScope, _ActivitiesService_) {
+    beforeEach(inject(function ($rootScope, _ProjectsService_) {
       // Set a new global scope
       $scope = $rootScope.$new();
-      ActivitiesService = _ActivitiesService_;
+      ProjectsService = _ProjectsService_;
     }));
 
     describe('Route Config', function () {
       describe('Main Route', function () {
         var mainstate;
         beforeEach(inject(function ($state) {
-          mainstate = $state.get('activities');
+          mainstate = $state.get('projects');
         }));
 
         it('Should have the correct URL', function () {
-          expect(mainstate.url).toEqual('/activities');
+          expect(mainstate.url).toEqual('/projects');
         });
 
         it('Should be abstract', function () {
@@ -41,7 +41,7 @@
       describe('List Route', function () {
         var liststate;
         beforeEach(inject(function ($state) {
-          liststate = $state.get('activities.list');
+          liststate = $state.get('projects.list');
         }));
 
         it('Should have the correct URL', function () {
@@ -53,50 +53,50 @@
         });
 
         it('Should have templateUrl', function () {
-          expect(liststate.templateUrl).toBe('modules/activities/client/views/list-activities.client.view.html');
+          expect(liststate.templateUrl).toBe('modules/projects/client/views/list-projects.client.view.html');
         });
       });
 
       describe('View Route', function () {
         var viewstate,
-          ActivitiesController,
-          mockActivity;
+          ProjectsController,
+          mockProject;
 
         beforeEach(inject(function ($controller, $state, $templateCache) {
-          viewstate = $state.get('activities.view');
-          $templateCache.put('modules/activities/client/views/view-activity.client.view.html', '');
+          viewstate = $state.get('projects.view');
+          $templateCache.put('modules/projects/client/views/view-project.client.view.html', '');
 
-          // create mock activity
-          mockActivity = new ActivitiesService({
+          // create mock project
+          mockProject = new ProjectsService({
             id: 12345,
-            name: 'activity test 1',
-            description: 'activity test 1 description'
+            name: 'project test 1',
+            description: 'project test 1 description'
           });
 
           // Initialize Controller
-          ActivitiesController = $controller('ActivitiesController as vm', {
+          ProjectsController = $controller('ProjectsController as vm', {
             $scope: $scope,
-            activityResolve: mockActivity
+            projectResolve: mockProject
           });
         }));
 
         it('Should have the correct URL', function () {
-          expect(viewstate.url).toEqual('/:activityId');
+          expect(viewstate.url).toEqual('/:projectId');
         });
 
         it('Should have a resolve function', function () {
           expect(typeof viewstate.resolve).toEqual('object');
-          expect(typeof viewstate.resolve.activityResolve).toEqual('function');
+          expect(typeof viewstate.resolve.projectResolve).toEqual('function');
         });
 
         it('should respond to URL', inject(function ($state) {
           expect($state.href(viewstate, {
-            activityId: 1
-          })).toEqual('/activities/1');
+            projectId: 1
+          })).toEqual('/projects/1');
         }));
 
-        it('should attach an activity to the controller scope', function () {
-          expect($scope.vm.activity.id).toBe(mockActivity.id);
+        it('should attach an project to the controller scope', function () {
+          expect($scope.vm.project.id).toBe(mockProject.id);
         });
 
         it('Should not be abstract', function () {
@@ -104,22 +104,22 @@
         });
 
         it('Should have templateUrl', function () {
-          expect(viewstate.templateUrl).toBe('modules/activities/client/views/view-activity.client.view.html');
+          expect(viewstate.templateUrl).toBe('modules/projects/client/views/view-project.client.view.html');
         });
       });
 
       describe('Handle Trailing Slash', function () {
         beforeEach(inject(function ($state, $rootScope) {
-          $state.go('activities.list');
+          $state.go('projects.list');
           $rootScope.$digest();
         }));
 
         it('Should remove trailing slash', inject(function ($state, $location, $rootScope) {
-          $location.path('activities/');
+          $location.path('projects/');
           $rootScope.$digest();
 
-          expect($location.path()).toBe('/activities');
-          expect($state.current.templateUrl).toBe('modules/activities/client/views/list-activities.client.view.html');
+          expect($location.path()).toBe('/projects');
+          expect($state.current.templateUrl).toBe('modules/projects/client/views/list-projects.client.view.html');
         }));
       });
     });

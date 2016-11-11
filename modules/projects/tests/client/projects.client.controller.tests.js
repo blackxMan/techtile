@@ -1,15 +1,15 @@
 (function () {
   'use strict';
 
-  describe('Activities Controller Tests', function () {
+  describe('Projects Controller Tests', function () {
     // Initialize global variables
-    var ActivitiesController,
+    var ProjectsController,
       $scope,
       $httpBackend,
       $state,
       Authentication,
-      ActivitiesService,
-      mockActivity;
+      ProjectsService,
+      mockProject;
 
     // The $resource service augments the response object with methods for updating and deleting the resource.
     // If we were to use the standard toEqual matcher, our tests would fail because the test values would not match
@@ -36,7 +36,7 @@
     // The injector ignores leading and trailing underscores here (i.e. _$httpBackend_).
     // This allows us to inject a service but then attach it to a variable
     // with the same name as the service.
-    beforeEach(inject(function ($controller, $rootScope, _$state_, _$httpBackend_, _Authentication_, _ActivitesService_) {
+    beforeEach(inject(function ($controller, $rootScope, _$state_, _$httpBackend_, _Authentication_, _ProjectsService_) {
       // Set a new global scope
       $scope = $rootScope.$new();
 
@@ -44,12 +44,12 @@
       $httpBackend = _$httpBackend_;
       $state = _$state_;
       Authentication = _Authentication_;
-      ActivitesService = _ActivitiesService_;
+      ProjectsService = _ProjectsService_;
 
-      // create mock activity
-      mockActivity = new ActivitiesService({
+      // create mock project
+      mockProject = new ProjectsService({
         id: 12345,
-        name: 'An Activity about MEAN',
+        name: 'An Project about MEAN',
         description: 'MEAN rocks!'
       });
 
@@ -58,10 +58,10 @@
         roles: ['user']
       };
 
-      // Initialize the Activities controller.
-      ActivitiesController = $controller('ActivitiesController as vm', {
+      // Initialize the Projects controller.
+      ProjectsController = $controller('ProjectsController as vm', {
         $scope: $scope,
-        activityResolve: {}
+        projectResolve: {}
       });
 
       // Spy on state go

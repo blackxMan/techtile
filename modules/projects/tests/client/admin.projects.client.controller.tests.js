@@ -1,15 +1,15 @@
 ﻿(function () {
   'use strict';
 
-  describe('Activities Controller Tests', function () {
+  describe('Projects Controller Tests', function () {
     // Initialize global variables
-    var ActivitiesController,
+    var ProjectsController,
       $scope,
       $httpBackend,
       $state,
       Authentication,
-      ActivitiesService,
-      mockActivity;
+      ProjectsService,
+      mockProject;
 
     // The $resource service augments the response object with methods for updating and deleting the resource.
     // If we were to use the standard toEqual matcher, our tests would fail because the test values would not match
@@ -36,7 +36,7 @@
     // The injector ignores leading and trailing underscores here (i.e. _$httpBackend_).
     // This allows us to inject a service but then attach it to a variable
     // with the same name as the service.
-    beforeEach(inject(function ($controller, $rootScope, _$state_, _$httpBackend_, _Authentication_, _ActivitiesService_) {
+    beforeEach(inject(function ($controller, $rootScope, _$state_, _$httpBackend_, _Authentication_, _ProjectsService_) {
       // Set a new global scope
       $scope = $rootScope.$new();
 
@@ -44,10 +44,10 @@
       $httpBackend = _$httpBackend_;
       $state = _$state_;
       Authentication = _Authentication_;
-      ActivitiesService = _ActivitiesService_;
+      ProjectsService = _ProjectsService_;
 
-      // create mock activity
-      mockActivity = new ActivitiesService({
+      // create mock project
+      mockProject = new ProjectsService({
         id: 12345,
         name: 'An Article about MEAN',
         description: 'MEAN rocks!'
@@ -58,10 +58,10 @@
         roles: ['user']
       };
 
-      // Initialize the Activities controller.
-      ActivitiesController = $controller('ActivitiesController as vm', {
+      // Initialize the Projects controller.
+      ProjectsController = $controller('ProjectsController as vm', {
         $scope: $scope,
-        activityResolve: {}
+        projectResolve: {}
       });
 
       // Spy on state go
@@ -69,33 +69,33 @@
     }));
 
     describe('vm.save() as create', function () {
-      var sampleActivityPostData;
+      var sampleProjectPostData;
 
       beforeEach(function () {
-        // Create a sample activity object
-        sampleActivityPostData = new ActivitiesService({
-          name: 'An Activity about MEAN',
+        // Create a sample project object
+        sampleProjectPostData = new ProjectsService({
+          name: 'An Project about MEAN',
           description: 'MEAN rocks!'
         });
 
-        $scope.vm.activity = sampleActivityPostData;
+        $scope.vm.project = sampleProjectPostData;
       });
 
-      it('should send a POST request with the form input values and then locate to new object URL', inject(function (ActivitiesService) {
+      it('should send a POST request with the form input values and then locate to new object URL', inject(function (ProjectsService) {
         // Set POST response
-        $httpBackend.expectPOST('api/activities', sampleActivityPostData).respond(mockActivity);
+        $httpBackend.expectPOST('api/projects', sampleProjectPostData).respond(mockProject);
 
         // Run controller functionality
         $scope.vm.save(true);
         $httpBackend.flush();
 
-        // Test URL redirection after the activity was created
-        expect($state.go).toHaveBeenCalledWith('admin.activities.list');
+        // Test URL redirection after the project was created
+        expect($state.go).toHaveBeenCalledWith('admin.projects.list');
       }));
 
       it('should set $scope.vm.error if error', function () {
         var errorMessage = 'this is an error message';
-        $httpBackend.expectPOST('api/activities', sampleActivityPostData).respond(400, {
+        $httpBackend.expectPOST('api/projects', sampleProjectPostData).respond(400, {
           message: errorMessage
         });
 
@@ -108,25 +108,25 @@
 
     describe('vm.save() as update', function () {
       beforeEach(function () {
-        // Mock activity in $scope
-        $scope.vm.activity = mockActivity;
+        // Mock project in $scope
+        $scope.vm.project = mockProject;
       });
 
-      it('should update a valid activity', inject(function (ActivitiesService) {
+      it('should update a valid project', inject(function (ProjectsService) {
         // Set PUT response
-        $httpBackend.expectPUT(/api\/activities\/([0-9a-fA-F]{24})$/).respond();
+        $httpBackend.expectPUT(/api\/projects\/([0-9a-fA-F]{24})$/).respond();
 
         // Run controller functionality
         $scope.vm.save(true);
         $httpBackend.flush();
 
         // Test URL location to new object
-        expect($state.go).toHaveBeenCalledWith('admin.activities.list');
+        expect($state.go).toHaveBeenCalledWith('admin.projects.list');
       }));
 
-      it('should set $scope.vm.error if error', inject(function (ActivitiesService) {
+      it('should set $scope.vm.error if error', inject(function (ProjectsService) {
         var errorMessage = 'error';
-        $httpBackend.expectPUT(/api\/activities\/([0-9a-fA-F]{24})$/).respond(400, {
+        $httpBackend.expectPUT(/api\/projects\/([0-9a-fA-F]{24})$/).respond(400, {
           message: errorMessage
         });
 
@@ -139,23 +139,23 @@
 
     describe('vm.remove()', function () {
       beforeEach(function () {
-        // Setup activities
-        $scope.vm.activity = mockActivity;
+        // Setup projects
+        $scope.vm.project = mockProject;
       });
 
-      it('should delete the activity and redirect to activities', function () {
+      it('should delete the project and redirect to projects', function () {
         // Return true on confirm message
         spyOn(window, 'confirm').and.returnValue(true);
 
-        $httpBackend.expectDELETE(/api\/activities\/([0-9a-fA-F]{24})$/).respond(204);
+        $httpBackend.expectDELETE(/api\/projects\/([0-9a-fA-F]{24})$/).respond(204);
 
         $scope.vm.remove();
         $httpBackend.flush();
 
-        expect($state.go).toHaveBeenCalledWith('admin.activities.list');
+        expect($state.go).toHaveBeenCalledWith('admin.projects.list');
       });
 
-      it('should should not delete the activity and not redirect', function () {
+      it('should should not delete the project and not redirect', function () {
         // Return false on confirm message
         spyOn(window, 'confirm').and.returnValue(false);
 

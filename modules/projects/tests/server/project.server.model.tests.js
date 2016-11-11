@@ -7,18 +7,18 @@ var should = require('should'),
   path = require('path'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   db = require(path.resolve('./config/lib/sequelize')).models,
-  Activity = db.activity,
+  Project = db.project,
   User = db.user;
 
 /**
  * Globals
  */
-var user, activity;
+var user, project;
 
 /**
  * Unit tests
  */
-describe('Activity Model Unit Tests:', function() {
+describe('Project Model Unit Tests:', function() {
 
   before(function(done) {
     user = User.build();
@@ -33,9 +33,9 @@ describe('Activity Model Unit Tests:', function() {
 
 
     user.save().then(function(user) {
-      activity = Activity.build({
-        name: 'Activity name',
-        description: 'Activity description',
+      project = Project.build({
+        name: 'Project name',
+        description: 'Project description',
         userId: user.id
       });
       done();
@@ -50,7 +50,7 @@ describe('Activity Model Unit Tests:', function() {
   describe('Method Save', function() {
     it('should be able to save without problems', function(done) {
       this.timeout(10000);
-      activity.save().then(function(err) {
+      project.save().then(function(err) {
         should.not.exist((err) ? null : err);
         done();
       }).catch(function(err) {});
@@ -58,9 +58,9 @@ describe('Activity Model Unit Tests:', function() {
     });
 
     it('should be able to show an error when try to save without name', function(done) {
-      activity.name = '';
+      project.name = '';
 
-      activity.save().then(function(err) {
+      project.save().then(function(err) {
         should.exist(null);
         done();
       }).catch(function(err) {

@@ -1,10 +1,10 @@
 ﻿(function () {
   'use strict';
 
-  describe('Activities Route Tests', function () {
+  describe('Projects Route Tests', function () {
     // Initialize global variables
     var $scope,
-      ActivitiesService;
+      ProjectsService;
 
     // We can start by loading the main application module
     beforeEach(module(ApplicationConfiguration.applicationModuleName));
@@ -12,21 +12,21 @@
     // The injector ignores leading and trailing underscores here (i.e. _$httpBackend_).
     // This allows us to inject a service but then attach it to a variable
     // with the same name as the service.
-    beforeEach(inject(function ($rootScope, _ActivitiesService_) {
+    beforeEach(inject(function ($rootScope, _ProjectsService_) {
       // Set a new global scope
       $scope = $rootScope.$new();
-      ActivitiesService = _ActivitiesService_;
+      ProjectsService = _ProjectsService_;
     }));
 
     describe('Route Config', function () {
       describe('Main Route', function () {
         var mainstate;
         beforeEach(inject(function ($state) {
-          mainstate = $state.get('admin.activities');
+          mainstate = $state.get('admin.projects');
         }));
 
         it('Should have the correct URL', function () {
-          expect(mainstate.url).toEqual('/activities');
+          expect(mainstate.url).toEqual('/projects');
         });
 
         it('Should be abstract', function () {
@@ -41,7 +41,7 @@
       describe('List Route', function () {
         var liststate;
         beforeEach(inject(function ($state) {
-          liststate = $state.get('admin.activities.list');
+          liststate = $state.get('admin.projects.list');
         }));
 
         it('Should have the correct URL', function () {
@@ -53,26 +53,26 @@
         });
 
         it('Should have templateUrl', function () {
-          expect(liststate.templateUrl).toBe('modules/activities/client/views/admin/list-activities.client.view.html');
+          expect(liststate.templateUrl).toBe('modules/projects/client/views/admin/list-projects.client.view.html');
         });
       });
 
       describe('Create Route', function () {
         var createstate,
-          ActivitiesController,
-          mockActivity;
+          ProjectsController,
+          mockProject;
 
         beforeEach(inject(function ($controller, $state, $templateCache) {
-          createstate = $state.get('admin.activities.create');
-          $templateCache.put('modules/activities/client/views/admin/form-activity.client.view.html', '');
+          createstate = $state.get('admin.projects.create');
+          $templateCache.put('modules/projects/client/views/admin/form-project.client.view.html', '');
 
-          // Create mock activity
-          mockActivity = new ActivitiesService();
+          // Create mock project
+          mockProject = new ProjectsService();
 
           // Initialize Controller
-          ActivitiesController = $controller('ActivitiesController as vm', {
+          ProjectsController = $controller('ProjectsController as vm', {
             $scope: $scope,
-            activityResolve: mockActivity
+            projectResolve: mockProject
           });
         }));
 
@@ -82,16 +82,16 @@
 
         it('Should have a resolve function', function () {
           expect(typeof createstate.resolve).toEqual('object');
-          expect(typeof createstate.resolve.activityResolve).toEqual('function');
+          expect(typeof createstate.resolve.projectResolve).toEqual('function');
         });
 
         it('should respond to URL', inject(function ($state) {
-          expect($state.href(createstate)).toEqual('/admin/activities/create');
+          expect($state.href(createstate)).toEqual('/admin/projects/create');
         }));
 
-        it('should attach an activity to the controller scope', function () {
-          expect($scope.vm.activity.id).toBe(mockActivity.id);
-          expect($scope.vm.activity.id).toBe(undefined);
+        it('should attach an project to the controller scope', function () {
+          expect($scope.vm.project.id).toBe(mockProject.id);
+          expect($scope.vm.project.id).toBe(undefined);
         });
 
         it('Should not be abstract', function () {
@@ -99,50 +99,50 @@
         });
 
         it('Should have templateUrl', function () {
-          expect(createstate.templateUrl).toBe('modules/activities/client/views/admin/form-activity.client.view.html');
+          expect(createstate.templateUrl).toBe('modules/projects/client/views/admin/form-project.client.view.html');
         });
       });
 
       describe('Edit Route', function () {
         var editstate,
-          ActivitiesController,
-          mockActivity;
+          ProjectsController,
+          mockProject;
 
         beforeEach(inject(function ($controller, $state, $templateCache) {
-          editstate = $state.get('admin.activities.edit');
-          $templateCache.put('modules/activities/client/views/admin/form-activity.client.view.html', '');
+          editstate = $state.get('admin.projects.edit');
+          $templateCache.put('modules/projects/client/views/admin/form-project.client.view.html', '');
 
-          // Create mock activity
-          mockActivity = new ActivitiesService({
+          // Create mock project
+          mockProject = new ProjectsService({
             id: 12345,
-            name: 'An activity about MEAN',
+            name: 'An project about MEAN',
             description: 'MEAN rocks!'
           });
 
           // Initialize Controller
-          ActivitiesController = $controller('ActivitiesController as vm', {
+          ProjectsController = $controller('ProjectsController as vm', {
             $scope: $scope,
-            activityResolve: mockActivity
+            projectResolve: mockProject
           });
         }));
 
         it('Should have the correct URL', function () {
-          expect(editstate.url).toEqual('/:activityId/edit');
+          expect(editstate.url).toEqual('/:projectId/edit');
         });
 
         it('Should have a resolve function', function () {
           expect(typeof editstate.resolve).toEqual('object');
-          expect(typeof editstate.resolve.activityResolve).toEqual('function');
+          expect(typeof editstate.resolve.projectResolve).toEqual('function');
         });
 
         it('should respond to URL', inject(function ($state) {
           expect($state.href(editstate, {
-            activityId: 1
-          })).toEqual('/admin/activities/1/edit');
+            projectId: 1
+          })).toEqual('/admin/projects/1/edit');
         }));
 
-        it('should attach an activity to the controller scope', function () {
-          expect($scope.vm.activity.id).toBe(mockActivity.id);
+        it('should attach an project to the controller scope', function () {
+          expect($scope.vm.project.id).toBe(mockProject.id);
         });
 
         it('Should not be abstract', function () {
@@ -150,7 +150,7 @@
         });
 
         it('Should have templateUrl', function () {
-          expect(editstate.templateUrl).toBe('modules/activities/client/views/admin/form-activity.client.view.html');
+          expect(editstate.templateUrl).toBe('modules/projects/client/views/admin/form-project.client.view.html');
         });
 
         xit('Should go to unauthorized route', function () {

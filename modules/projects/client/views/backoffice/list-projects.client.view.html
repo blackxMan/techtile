@@ -59,7 +59,7 @@
   <md-table-pagination md-limit="vm.dtConfig.limit" md-limit-options="[5, 10, 15, 25, 50]" md-page="vm.dtConfig.page" md-total="{{vm.projects.count}}" md-on-paginate="vm.getProjects" md-page-select></md-table-pagination>
 </md-card-->
 
-<div style="padding:0px" ng-init="vm.getProjects()" layout="column" flex>
+<div style="padding:0px;position:relative" ng-init="vm.getProjects()" layout="column" flex>
   <md-toolbar class="md-table-toolbar md-default" ng-hide="vm.selectedItems.length">
     <div class="md-toolbar-tools">
       <span>Projects list</span>
@@ -80,9 +80,9 @@
   </md-toolbar>
   <md-table-container flex>
     <table md-table md-row-select multiple ng-model="vm.selectedItems" md-progress="vm.promise">
-      <thead md-head md-order="vm.dtConfig.order" md-on-reorder="vm.getActivities">
+      <thead md-head md-order="vm.dtConfig.order" md-on-reorder="vm.getActivities" style="position: relative">
         <tr md-row>
-          <th md-column md-order-by="name" hide-md><span>Project name</span></th>
+          <th md-column md-order-by="name" hide-md width="25px"><span>Project name</span></th>
           <th md-column md-numeric><span>Command</span></th>
           <th md-column hide-md>Customer <span style="font-size:10px">(Date)</span></th>
           <th md-column>Manufactering <span style="font-size:10px">(Date)</span></th>
@@ -92,10 +92,21 @@
           <th md-column>Real budget</th>
           <th md-column style="text-align: center;">Actions</th>
         </tr>
+        <!--tr style="position:fixed;width:100%;top:0px"  md-whiteframe="1" md-row>
+          <th md-column md-order-by="name" hide-md width="25px"><span>Project name</span></th>
+          <th md-column md-numeric><span>Command</span></th>
+          <th md-column hide-md>Customer <span style="font-size:10px">(Date)</span></th>
+          <th md-column>Manufactering <span style="font-size:10px">(Date)</span></th>
+          <th md-column>Customer</th>
+          <th md-column>Customer budget</th>
+          <th md-column>Estimated budget</th>
+          <th md-column>Real budget</th>
+          <th md-column style="text-align: center;">Actions</th>
+        </tr-->
       </thead>
       <tbody md-body>
         <tr md-row md-select="project" md-select-id="name" md-auto-select ng-repeat="project in vm.projects.rows">
-          <td md-cell hide-md>{{project.name}}</td>
+          <td md-cell hide-md  width="25px">{{project.name}}</td>
           <td md-cell>{{project.commandReference}}</td>
           <td md-cell hide-md>{{project.clientPlannedAt | date: 'mediumDate' }} - {{project.clientDeliveredAt | date: 'mediumDate' }}</td>
           <td md-cell>{{project.plannedAt | date: 'mediumDate' }} - {{project.deliveredAt | date: 'mediumDate' }}</td>
@@ -116,7 +127,34 @@
     </table>
   </md-table-container>
 
-  <div style="bottom:0px;position:fixed;width:100%" flex>
+  <!--div style="bottom:0px;position:fixed;width:100%;background-color:rgb(250,250,250)" flex-->
+  <md-toolbar class="md-table-toolbar md-default">
     <md-table-pagination md-limit="vm.dtConfig.limit" md-limit-options="[5, 10, 15, 25, 50]" md-page="vm.dtConfig.page" md-total="{{vm.projects.count}}" md-on-paginate="vm.getProjects" md-page-select></md-table-pagination>
-  </div>
+  </md-toolbar>
+  <!--/div-->
 </div>
+<!-- fab button action -->
+<md-fab-speed-dial md-direction="up" md-open="false" class="md-fab md-fab-bottom-left md-fling" ng-cloak>
+  <md-fab-trigger>
+    <md-button aria-label="menu" class="md-icon-button md-button md-fab md-warn">
+      <md-tooltip md-visible="false" md-direction="right">
+        Shortcut
+      </md-tooltip>
+      <md-icon>apps</md-icon>
+    </md-button>
+  </md-fab-trigger>
+  <md-fab-actions>
+    <md-button aria-label="fullscreen" class="md-fab md-raised md-mini">
+      <md-tooltip md-visible="false" md-direction="right">
+        Fullscreen
+      </md-tooltip>
+      <md-icon aria-label="fullscreen">fullscreen</md-icon>
+    </md-button>
+    <md-button aria-label="add" class="md-fab md-raised md-mini">
+      <md-tooltip md-visible="false" md-direction="right">
+        Add new project
+      </md-tooltip>
+      <md-icon aria-label="add">add</md-icon>
+    </md-button>
+  </md-fab-actions>
+</md-fab-speed-dial>
