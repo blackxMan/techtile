@@ -124,7 +124,13 @@ exports.lazy = function(req,res){
      order: column+' '+orderType,
      offset: offset,
      limit: limit,
-     where:{deletedAt:{$eq: null}},
+     where:{
+       deletedAt:{$eq: null},
+       $or: [
+         {name: {$iLike: '%'+req.query.filterKey+'%'}},
+         {commandReference: {$iLike: '%'+req.query.filterKey+'%'}}
+       ]
+     },
      include:[]
   })
   .then(function(result) {

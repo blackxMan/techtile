@@ -38,6 +38,7 @@ module.exports = {
         'public/lib/angular-material-sidemenu/dest/angular-material-sidemenu.js', // angular material sidemenu directive
         'public/lib/angular-material-data-table/dist/md-data-table.min.js', // angular material datatable
         'public/lib/md-color-picker/dist/mdColorPicker.min.js', // angular material color
+        'public/lib/angular-fixed-table-header/src/fixed-table-header.min.js'
 
         // endbower
       ],

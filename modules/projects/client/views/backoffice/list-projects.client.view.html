@@ -1,4 +1,15 @@
-﻿
+﻿<style>
+  tr.fixed-header{
+    position:fixed;
+    top:128px;
+    width:100%;
+    background-color:rgb(250,250,250);
+  }
+  tr.fixed-header th{
+    padding-top: 20px!important;
+    padding-bottom: 15px!important;
+  }
+</style>
 <!--md-card style="padding:0px" ng-init="vm.getProjects()" flex>
   <md-toolbar class="md-table-toolbar md-default" ng-hide="vm.selectedItems.length">
     <div class="md-toolbar-tools">
@@ -64,6 +75,10 @@
     <div class="md-toolbar-tools">
       <span>Projects list</span>
       <div flex></div>
+      <md-button class="md-icon-button" ng-click="vm.toggleSearch()">
+        <md-icon ng-show="!vm.dtConfig.filterState">filter_list</md-icon>
+        <md-icon ng-show="vm.dtConfig.filterState">first_page</md-icon>
+      </md-button>
       <md-button class="md-icon-button" ng-click="vm.getProjects()">
         <md-icon>refresh</md-icon>
       </md-button>
@@ -78,11 +93,20 @@
       </md-button>
     </div>
   </md-toolbar>
+  <md-toolbar class="md-table-toolbar md-default" ng-show="vm.dtConfig.filterState">
+    <div class="md-toolbar-tools">
+      <md-input-container style="align-self: baseline;" md-theme="input" ng-keyup="vm.getProjects()" flex>
+        <label>enter search</label>
+        <input ng-model="vm.dtConfig.filterKey">
+      </md-input-container>
+      <md-icon>search</md-icon>
+    </div>
+  </md-toolbar>
   <md-table-container flex>
-    <table md-table md-row-select multiple ng-model="vm.selectedItems" md-progress="vm.promise">
-      <thead md-head md-order="vm.dtConfig.order" md-on-reorder="vm.getActivities" style="position: relative">
+    <table md-table md-row-select multiple ng-model="vm.selectedItems" md-progress="vm.promise" style="position:relative">
+      <thead md-head md-order="vm.dtConfig.order" md-on-reorder="vm.getActivities" fix-head>
         <tr md-row>
-          <th md-column md-order-by="name" hide-md width="25px"><span>Project name</span></th>
+          <th md-column md-order-by="name" hide-md><span>Project name</span></th>
           <th md-column md-numeric><span>Command</span></th>
           <th md-column hide-md>Customer <span style="font-size:10px">(Date)</span></th>
           <th md-column>Manufactering <span style="font-size:10px">(Date)</span></th>
@@ -92,17 +116,6 @@
           <th md-column>Real budget</th>
           <th md-column style="text-align: center;">Actions</th>
         </tr>
-        <!--tr style="position:fixed;width:100%;top:0px"  md-whiteframe="1" md-row>
-          <th md-column md-order-by="name" hide-md width="25px"><span>Project name</span></th>
-          <th md-column md-numeric><span>Command</span></th>
-          <th md-column hide-md>Customer <span style="font-size:10px">(Date)</span></th>
-          <th md-column>Manufactering <span style="font-size:10px">(Date)</span></th>
-          <th md-column>Customer</th>
-          <th md-column>Customer budget</th>
-          <th md-column>Estimated budget</th>
-          <th md-column>Real budget</th>
-          <th md-column style="text-align: center;">Actions</th>
-        </tr-->
       </thead>
       <tbody md-body>
         <tr md-row md-select="project" md-select-id="name" md-auto-select ng-repeat="project in vm.projects.rows">

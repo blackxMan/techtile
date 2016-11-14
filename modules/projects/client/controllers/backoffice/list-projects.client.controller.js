@@ -17,7 +17,10 @@
     vm.dtConfig = {
       order: 'name',
       limit: 5,
-      page: 1
+      page: 1,
+      filterState: false,
+      filterField: 'all',
+      filterKey: ''
     };
 
     function success(result) {
@@ -66,6 +69,10 @@
           console.log(err);
         });
 
+    }
+
+    vm.toggleSearch= function(){
+      vm.dtConfig.filterState = !vm.dtConfig.filterState;
     }
   }
 }());
