@@ -1,103 +1,198 @@
-<form name="vm.form.projectForm"  ng-submit="vm.save(vm.form.projectForm.$valid)" novalidate>
-  <md-card>
-    <md-card-content>
-      <div layout-gt-sm="row">
-        <md-input-container class="md-block flex-gt-sm" flex-gt-sm="70" md-require-match required>
-          <label for="name">Command reference</label>
-          <input ng-model="vm.project.commandReference" class="md-input" name="name" id="name" aria-invalid="false" style="">
-          <div ng-messages="vm.form.projectForm.commandReference.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Command reference is required.</p>
-          </div>
-        </md-input-container>
-        <md-input-container class="md-block" flex-gt-xs>
-          <label>Planned at:</label>
-          <md-datepicker ng-model="vm.project.clientPlannedAt" name="clientPlannedAt"></md-datepicker>
-          <div ng-messages="vm.form.projectForm.clientPlannedAt.$error">
-            <div ng-message="valid">The entered value is not a date!</div>
-            <div ng-message="required">This date is required!</div>
-          </div>
-        </md-input-container>
-        <md-input-container class="md-block" flex-gt-xs>
-          <label>Last delivery at:</label>
-          <md-datepicker ng-model="vm.project.clientDeliveredAt" name="clientDeliveredAt"></md-datepicker>
-          <div ng-messages="vm.form.projectForm.clientDeliveredAt.$error">
-            <div ng-message="valid">The entered value is not a date!</div>
-            <div ng-message="required">This date is required!</div>
-          </div>
-        </md-input-container>
-      </div>
-      <div layout-gt-sm="row">
-        <md-input-container class="md-block flex-gt-sm" flex-gt-sm="70" md-require-match required>
-          <label for="name">Project name</label>
-          <input ng-model="vm.project.name" class="md-input" name="name" id="name" aria-invalid="false" style="">
-          <div ng-messages="vm.form.projectForm.name.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">name is required.</p>
-          </div>
-        </md-input-container>
-        <md-input-container class="md-block" flex-gt-xs>
-          <label>Planned at:</label>
-          <md-datepicker ng-model="vm.project.plannedAt" name="plannedAt"></md-datepicker>
-          <div ng-messages="vm.form.projectForm.plannedAt.$error">
-            <div ng-message="valid">The entered value is not a date!</div>
-            <div ng-message="required">This date is required!</div>
-          </div>
-        </md-input-container>
-        <md-input-container class="md-block" flex-gt-xs>
-          <label>Last delivery at:</label>
-          <md-datepicker ng-model="vm.project.deliveredAt" name="deliveredAt"></md-datepicker>
-          <div ng-messages="vm.form.projectForm.deliveredAt.$error">
-            <div ng-message="valid">The entered value is not a date!</div>
-            <div ng-message="required">This date is required!</div>
-          </div>
-        </md-input-container>
-      </div>
-      <md-input-container class="md-block">
-        <label for="description">Description</label>
-        <textarea name="description" data-ng-model="vm.project.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>
-      </md-input-container>
-      <md-input-container class="md-block">
-        <label for="note">Note</label>
-        <textarea name="note" data-ng-model="vm.project.note" md-maxlength="150" rows="5" md-select-on-focus></textarea>
-      </md-input-container>
-      <div layout-gt-xs="row">
-        <md-input-container class="md-block" flex-gt-sm>
-          <label>Client budget</label>
-          <input ng-model="vm.project.clientBudget" class="md-input">
-          <div ng-messages="vm.form.projectForm.clientBudget.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Client budget is required.</p>
-          </div>
-        </md-input-container>
-        <md-input-container class="md-block" flex-gt-sm>
-          <label>Estimated budget</label>
-          <input ng-model="vm.project.estimatedBudget" class="md-input">
-          <div ng-messages="vm.form.projectForm.estimatedBudget.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Estimated budget is required.</p>
-          </div>
-        </md-input-container>
-        <md-input-container class="md-block" flex-gt-sm>
-          <label>Budget</label>
-          <input ng-model="vm.project.budget" class="md-input">
-          <div ng-messages="vm.form.projectForm.budget.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Budget is required.</p>
-          </div>
-        </md-input-container>
-      </div>
-      <!--md-autocomplete flex required md-input-name="autocompleteManager"  md-selected-item-change="vm.managerChange(vm.activity.manager)" md-no-cache="vm.noCache" md-selected-item="vm.activity.manager" md-search-text="vm.searchManager" md-items="item in vm.managerSearch(vm.searchManager)" md-item-text="item.displayName" md-require-match md-floating-label="Gerant de l'activité">
-        <md-item-template>
-          <span md-highlight-text="vm.searchManager">{{item.displayName}}</span>
-        </md-item-template>
-        <div ng-messages="vm.form.activityForm.autocompleteManager.$error" ng-if="vm.form.activityForm.autocompleteManager.$touched">
-          <div ng-message="required">Veuillez <b>choisir</b> un gerant pour cette activité.</div>
-          <div ng-message="md-require-match">Veuillez <b>choisir</b> un gerant correcte.</div>
+<form name="vm.form.projectForm"  ng-submit="vm.save(vm.form.projectForm.$valid)" novalidate layout="column">
+  <div layout="row">
+    <!--md-card flex-gt-md="50">
+      <md-card-header>
+        <md-card-header-text>
+          <span class="md-title">Project detail</span>
+        </md-card-header-text>
+        <div flex></div>
+        <md-button class="md-icon-button" aria-label="edit">
+          <md-icon>edit</md-icon>
+        </md-button>
+        <md-button type="submit" class="md-icon-button">
+          <md-icon>save</md-icon>
+        </md-button>
+      </md-card-header>
+      <md-card-content-->
+        <md-tabs md-dynamic-height md-border-bottom flex-gt-md="50">
+          <md-tab label="Information">
+            <md-content class="md-padding">
+              <div layout-gt-sm="row">
+                <md-input-container class="md-block flex-gt-sm" flex-gt-sm="35" md-require-match required>
+                  <label for="name">Command reference</label>
+                  <input ng-model="vm.project.commandReference" class="md-input" name="name" id="name" aria-invalid="false" style="">
+                  <div ng-messages="vm.form.projectForm.commandReference.$error" role="alert">
+                    <p class="help-block error-text" ng-message="required">Command reference is required.</p>
+                  </div>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-xs>
+                  <label>Planned at:</label>
+                  <md-datepicker ng-model="vm.project.clientPlannedAt" name="clientPlannedAt"></md-datepicker>
+                  <div ng-messages="vm.form.projectForm.clientPlannedAt.$error">
+                    <div ng-message="valid">The entered value is not a date!</div>
+                    <div ng-message="required">This date is required!</div>
+                  </div>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-xs>
+                  <label>Last delivery at:</label>
+                  <md-datepicker ng-model="vm.project.clientDeliveredAt" name="clientDeliveredAt"></md-datepicker>
+                  <div ng-messages="vm.form.projectForm.clientDeliveredAt.$error">
+                    <div ng-message="valid">The entered value is not a date!</div>
+                    <div ng-message="required">This date is required!</div>
+                  </div>
+                </md-input-container>
+              </div>
+              <div layout-gt-sm="row">
+                <md-input-container class="md-block flex-gt-sm" flex-gt-sm="35" md-require-match required>
+                  <label for="name">Project name</label>
+                  <input ng-model="vm.project.name" class="md-input" name="name" id="name" aria-invalid="false" style="">
+                  <div ng-messages="vm.form.projectForm.name.$error" role="alert">
+                    <p class="help-block error-text" ng-message="required">name is required.</p>
+                  </div>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-xs>
+                  <label>Planned at:</label>
+                  <md-datepicker ng-model="vm.project.plannedAt" name="plannedAt"></md-datepicker>
+                  <div ng-messages="vm.form.projectForm.plannedAt.$error">
+                    <div ng-message="valid">The entered value is not a date!</div>
+                    <div ng-message="required">This date is required!</div>
+                  </div>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-xs>
+                  <label>Last delivery at:</label>
+                  <md-datepicker ng-model="vm.project.deliveredAt" name="deliveredAt"></md-datepicker>
+                  <div ng-messages="vm.form.projectForm.deliveredAt.$error">
+                    <div ng-message="valid">The entered value is not a date!</div>
+                    <div ng-message="required">This date is required!</div>
+                  </div>
+                </md-input-container>
+              </div>
+              <md-input-container class="md-block">
+                <label for="description">Description</label>
+                <textarea name="description" data-ng-model="vm.project.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+              </md-input-container>
+            </md-content>
+          </md-tab>
+          <md-tab label="Detail">
+            <md-content class="md-padding">
+              <md-input-container class="md-block">
+                <label for="note">Note</label>
+                <textarea name="note" data-ng-model="vm.project.note" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+              </md-input-container>
+              <div layout-gt-xs="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                  <label>Client budget</label>
+                  <input ng-model="vm.project.clientBudget" class="md-input">
+                  <div ng-messages="vm.form.projectForm.clientBudget.$error" role="alert">
+                    <p class="help-block error-text" ng-message="required">Client budget is required.</p>
+                  </div>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                  <label>Estimated budget</label>
+                  <input ng-model="vm.project.estimatedBudget" class="md-input">
+                  <div ng-messages="vm.form.projectForm.estimatedBudget.$error" role="alert">
+                    <p class="help-block error-text" ng-message="required">Estimated budget is required.</p>
+                  </div>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                  <label>Budget</label>
+                  <input ng-model="vm.project.budget" class="md-input">
+                  <div ng-messages="vm.form.projectForm.budget.$error" role="alert">
+                    <p class="help-block error-text" ng-message="required">Budget is required.</p>
+                  </div>
+                </md-input-container>
+              </div>
+            </md-content>
+          </md-tab>
+        </md-tabs>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
         </div>
-      </md-autocomplete-->
-
-      <center>
-        <md-button type="submit" class="md-primary">{{vm.project.id ? 'Update' : 'Create'}}</md-button>
-      </center>
-      <div ng-show="vm.error" class="text-danger">
-        <strong ng-bind="vm.error"></strong>
-      </div>
+      <!--/md-card-content>
+    </md-card-->
+    <md-card flex-gt-md="50">
+      <md-card-header style="padding-bottom:0px">
+        <md-card-header-text>
+          <span class="md-title">Products</span>
+          <span class="md-subhead">List of project products</span>
+        </md-card-header-text>
+        <div flex></div>
+        <md-button class="md-icon-button" aria-label="New Product">
+          <md-icon>add</md-icon>
+        </md-button>
+      </md-card-header>
+      <md-card-content style="padding-top:0px">
+        <md-table-container flex>
+          <table md-table md-row-select ng-model="vm.selectedProduct" md-progress="vm.promise" style="position:relative">
+            <thead md-head md-order="vm.dtConfig.order" md-on-reorder="vm.project.products" fix-head>
+              <tr md-row>
+                <th md-column md-order-by="styleReference"><span>Style reference</span></th>
+                <th md-column md-order-by="name"><span>Product name</span></th>
+                <th md-column md-numeric><span>Quantity</span></th>
+                <th md-column style="text-align: center;">Actions</th>
+              </tr>
+            </thead>
+            <tbody md-body>
+              <tr md-row md-select="project" md-select-id="name" md-auto-select ng-repeat="product in vm.products">
+                <td md-cell>{{product.styleReference}}</td>
+                <td md-cell>{{product.name}}</td>
+                <td md-cell>{{product.quantity}}</td>
+                <td md-cell>
+                  <md-button class="md-icon-button md-mini" ng-click="vm.edit(product.id)">
+                    <md-icon>edit</md-icon>
+                  </md-button>
+                  <md-button class="md-icon-button md-mini" ng-click="vm.deleteItems(product.id)">
+                    <md-icon>delete</md-icon>
+                  </md-button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </md-table-container>
+      </md-card-content>
+    </md-card>
+  </div>
+  <md-card>
+    <md-card-header style="padding-bottom:0px">
+      <md-card-header-text>
+        <span class="md-title">Models</span>
+        <span class="md-subhead">List of project models</span>
+      </md-card-header-text>
+      <div flex></div>
+      <md-button class="md-icon-button" aria-label="New Product">
+        <md-icon>add</md-icon>
+      </md-button>
+    </md-card-header>
+    <md-card-content style="padding-top:0px">
+      <md-table-container flex>
+        <table md-table md-row-select ng-model="vm.selectedModel" md-progress="vm.promise" style="position:relative">
+          <thead md-head md-order="vm.dtConfig.order" md-on-reorder="vm.selectedProduct" fix-head>
+            <tr md-row>
+              <th md-column><span>Color</span></th>
+              <th md-column><span>Size</span></th>
+              <th md-column><span>Letter size</span></th>
+              <th md-column><span>Quantity</span></th>
+              <th md-column style="text-align: center;">Actions</th>
+            </tr>
+          </thead>
+          <tbody md-body>
+            <tr md-row md-select="model" md-select-id="name" md-auto-select ng-repeat="model in vm.selectedProduct.models">
+              <td md-cell>{{model.color}}</td>
+              <td md-cell>{{model.size}}</td>
+              <td md-cell>{{model.letterSize}}</td>
+              <td md-cell>{{model.quantity}}</td>
+              <td md-cell>
+                <md-button class="md-icon-button md-mini" ng-click="vm.edit(model.id)">
+                  <md-icon>edit</md-icon>
+                </md-button>
+                <md-button class="md-icon-button md-mini" ng-click="vm.deleteItems(model.id)">
+                  <md-icon>delete</md-icon>
+                </md-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </md-table-container>
     </md-card-content>
   </md-card>
 </form>
